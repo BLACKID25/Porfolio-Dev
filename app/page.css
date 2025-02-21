@@ -1,0 +1,19 @@
+/* styles/page.css */
+main {
+    padding-top: 80px; /* Para evitar que la NavBar cubra el contenido */
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    font-size: 36px;
+    color: #333;
+  }
+  
+  p {
+    font-size: 18px;
+    color: #666;
+    max-width: 600px;
+    margin: 20px auto;
+  }
+  
