@@ -1,0 +1,118 @@
+/* components/NavBar/NavBar.css */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0); /* Fondo transparente */
+    margin-left: 690px;  /* Distancia desde el margen izquierdo */
+    box-shadow: 0px 2px 10px rgba(240, 12, 12, 0.1); /* Sombra sutil */
+    padding: 50px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    pointer-events: none; /* Permite que los elementos debajo de la barra sean interactivos */
+  }
+  
+  /* Asegúrate de que los elementos dentro del nav puedan ser interactivos */
+  nav * {
+    pointer-events: auto;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Centra la lista de navegación */
+  .nav-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    padding: 0;
+    margin: 0;
+  }
+  
+  nav ul li {
+    display: flex;
+    flex-direction: column; /* Apilar icono y texto */
+    align-items: center; /* Centrar los elementos */
+    position: relative; /* Necesario para posicionar el icono encima */
+  }
+  
+  nav ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; /* Para tener el icono encima */
+  }
+  
+  nav ul li a svg {
+    visibility: hidden; /* Los iconos estarán invisibles */
+    opacity: 0; /* Los iconos estarán completamente transparentes */
+    position: absolute; /* Posicionar el icono encima del texto */
+    top: 0; /* Ajusta según sea necesario */
+    left: 50%; /* Centra el icono */
+    transform: translateX(-50%); /* Alineación perfecta */
+    transition: opacity 0.3s ease, visibility 0s 0.3s; /* Transición suave para los iconos */
+    margin-bottom: 8px; /* Espacio entre icono y texto */
+  }
+  
+  nav ul li a span {
+    visibility: visible; /* El texto es visible por defecto */
+    opacity: 1; /* El texto es opaco por defecto */
+    transition: opacity 0.3s ease, visibility 0s 0s; /* Transición suave para el texto */
+  }
+  
+  /* Cuando se pasa el mouse sobre el enlace, se muestra el icono y se oculta el texto */
+  nav ul li a:hover svg {
+    visibility: visible; /* Los iconos se hacen visibles */
+    opacity: 1; /* Los iconos se hacen opacos */
+    transition: opacity 0.3s ease, visibility 0s 0s; /* Transición suave para mostrar el icono */
+  }
+  
+  nav ul li a:hover span {
+    visibility: hidden; /* El texto se oculta */
+    opacity: 0; /* El texto se vuelve transparente */
+    transition: opacity 0.3s ease, visibility 0s 0.3s; /* Transición suave para ocultar el texto */
+  }
+  
+  /* Estilo para los enlaces cuando pasas el mouse */
+  nav ul li a:hover {
+    color: #d3cb5a;
+  }
+  
+  /* Oculta la lista en pantallas pequeñas */
+  .hamburger {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  /* 📌 Estilos responsivos */
+  @media (max-width: 768px) {
+    .nav-container {
+      position: static;
+      transform: none;
+    }
+  
+    nav ul {
+      display: none;
+    }
+  
+    .hamburger {
+      display: block;
+    }
+  }
+  

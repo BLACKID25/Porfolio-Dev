@@ -1,19 +1,23 @@
 /* styles/page.css */
-main {
-    padding-top: 80px; /* Para evitar que la NavBar cubra el contenido */
-    text-align: center;
-    font-family: Arial, sans-serif;
-  }
-  
-  h1 {
-    font-size: 36px;
-    color: #333;
-  }
-  
-  p {
-    font-size: 18px;
-    color: #666;
-    max-width: 600px;
-    margin: 20px auto;
-  }
-  
+body {
+  padding-top: 5px; /* Para evitar que la NavBar cubra el contenido */
+  font-family: Arial, sans-serif;
+  position: relative; /* Para posicionar otras capas sobre el fondo si es necesario */
+  background-image: url('/Home-general.jpg');
+  background-size: cover; /* Ajusta la imagen para que cubra todo el contenedor */
+  background-position: center; /* Centra la imagen */
+  background-attachment: fixed; /* Hace que la imagen de fondo no se mueva cuando se hace scroll */
+  z-index: -1; /* Esto asegura que el fondo esté detrás del contenido */
+}
+
+h1 {
+  font-size: 36px;
+  color: #333;
+}
+
+p {
+  font-size: 18px;
+  color: #666;
+  max-width: 600px;
+  margin: 20px auto;
+}

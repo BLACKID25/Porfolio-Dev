@@ -1,0 +1,80 @@
+
+
+.home-courses {
+  > h2 {
+    text-align: center;
+    color: #fff;
+    font-size: 30px;
+    text-transform: uppercase;
+    margin: 30px 0 30px 0;
+  }
+
+    &__all-courses {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -10px;
+
+        > a {
+        width: 50%;
+        display: flex;
+        padding: 10px;
+            &:hover {
+                opacity: 0.6;
+            }
+
+            .ui.image {
+                height: 67px;
+            }
+
+        > div {
+            display: flex;
+            flex-direction: column;
+            padding: 0 10px;
+
+                > span {
+                
+
+                    &:first-of-type {
+                        font-weight: bold;
+                        font-size: 16px;
+                    }
+                        &:last-of-type {
+                            opacity: 0.4;
+                            font-size: 12px;
+                            padding-top: 6px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                        
+                        }
+                }
+            }
+        }   
+
+    } 
+    /* Centrar el contenedor del botón */
+    .home-courses__more {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    }
+    
+    /* Estilos para el botón */
+    .home-courses__more button {
+    background-color: #007bff;  /* Color de fondo (azul) */
+    color: #fff;                /* Texto en blanco */
+    border: none;               /* Sin borde */
+    border-radius: 4px;         /* Bordes ligeramente redondeados */
+    padding: 12px 24px;         /* Espaciado interno */
+    font-size: 16px;            /* Tamaño de letra */
+    cursor: pointer;            /* Cambia el cursor al pasar */
+    transition: background-color 0.3s ease;
+    }
+    
+    .home-courses__more button:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+    }
+}

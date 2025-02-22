@@ -1,14 +1,17 @@
-import NavBar from "./components/NavBar/NavBar";
+import NavBar from "./components/webHome/NavBar/NavBar";
+import { Banner } from "./components/webHome/Banner/banner";
+import { Suscripcion } from "./components/webHome/Sucripcion/suscripcion";
 import "./page.css"; // Importa los estilos de Home
 
 export default function Home() {
   return (
     <div>
-      <NavBar />
       <main>
-        <h1>Bienvenido a MiProyecto</h1>
-        <p>Encuentra a los mejores profesionales y suscríbete para conocer más.</p>
-      </main>
+      <Banner/>
+      <NavBar/>
+      <Suscripcion/>
+      
+      </main> 
     </div>
   );
 }
