@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
 import { MdHome, MdWork, MdCreate, MdInfo, MdContactMail } from 'react-icons/md'; // Importa los iconos
@@ -20,7 +22,7 @@ export default function NavBar() {
           </li>
           <li>
             <Link href="/createPerfil">
-              <MdCreate size={24} /> <span>Suscríbete</span>
+              <MdCreate size={24} /> <span>Planes</span>
             </Link>
           </li>
           <li>
