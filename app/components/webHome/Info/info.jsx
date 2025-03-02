@@ -15,7 +15,6 @@ export function Info() {
         Tu nos entregas una imagen o tu idea de Portafolio, la adaptamos y te otorgamos una URL Profesional por un Bajo Costo, activa las 24 horas del día y
         los 365 días del año y mucho más.
       </h4>
-
       <div className="how-my-courses-work__items">
         {map(itemsData, (item, index) => (
           <div key={index}>
