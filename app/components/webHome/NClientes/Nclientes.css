@@ -21,7 +21,7 @@
 /* Contenedor de estadísticas */
 .stats {
     display: flex;
-    justify-content: space-around;
+    justify-content: center; /* Alinea el contenido al centro*/
     margin-bottom: 50px;
     gap: 90px; /* Aumenta la separación entre estadísticas */
     
