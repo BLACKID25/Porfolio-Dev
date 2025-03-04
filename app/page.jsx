@@ -2,8 +2,9 @@ import NavBar from "./components/webHome/NavBar/NavBar";
 import { Banner } from "./components/webHome/Banner/banner";
 import { Suscripcion } from "./components/webHome/Sucripcion/suscripcion";
 import { Info } from "./components/webHome/Info/info";
+import  Nclientes  from "./components/webHome/NClientes/nclientes";
 import "./page.css"; // Importa los estilos de Home
-import { info } from "autoprefixer";
+import {Reviews} from "./components/webHome/Reseñas/reseñas" 
 
 
 export default function Home() {
@@ -13,7 +14,9 @@ export default function Home() {
       <Banner/>
       <NavBar/>
       <Suscripcion/>
+      <Nclientes/>
       <Info/>
+      <Reviews/>
       </main> 
     </div>
   );
