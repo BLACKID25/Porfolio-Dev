@@ -1,100 +1,102 @@
 /* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f8f8;
-    background-image: url('/Home-general.jpg');
-  }
-  
-  /* Contenedor principal */
-  .container {
-    text-align: center;
-    padding: 50px 20px;
-  }
-  
-  /* Título */
-  .title {
-    font-size: 2rem;
-    color: #b8b5b5;
-    margin-bottom: 20px;
-  }
-  
-  /* Contenedor de los planes */
-  .plans {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  
-  /* Tarjetas de los planes */
-  .card {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    width: 250px;
-    text-align: left;
-    display: flex;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8f8;
+  background-image: url('/Home-general.jpg');
+}
+
+/* Contenedor principal */
+.container {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+/* Título */
+.title {
+  font-size: 2rem;
+  color: #b8b5b5;
+  margin-bottom: 20px;
+}
+
+/* Contenedor de los planes */
+.plans {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Tarjetas de los planes */
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  text-align: left;
+  display: flex;
   flex-direction: column; /* Organiza los elementos dentro de la tarjeta de arriba a abajo */
   justify-content: space-between; /* Asegura que el contenido se distribuya y el botón esté abajo */
   height: 280px; /* Ajusta la altura de la tarjeta para que tenga espacio suficiente para el contenido */
-  transition: transform 0.3s ease-in-out;
-  }
-  
-  .card:hover {
-    transform: scale(1.05);
-  }
-  
-  /* Nombre del plan */
-  .card h2 {
-    margin-bottom: 10px;
-    color: #333;
-    text-align: center;
-  }
-  
-  /* Precio */
-  .price {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #007bff;
-    margin-bottom: 1px;
-    text-align: center;
-  }
-  
-  /* Lista de características */
-  .card ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .card ul li {
-    margin: 5px 0;
-    color: #555;
-  }
-  
-  /* Botón */
-  .btn {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    margin-top: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background 0.3s;
-    align-self: center; /* Centra el botón horizontalmente */
-    
-  }
-  
-  .btn:hover {
-    background-color: #0056b3;
-  }
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  position: relative; /* Asegura que los efectos de bordes se muestren correctamente */
+  border: 2px solid transparent; /* Borde invisible para la animación */
+}
 
-  .check-icon {
-    color: green;  /* Color verde para el ganchito */
-    margin-right: 10px;  /* Espacio entre el ícono y el texto */
-  }
-  
+.card:hover {
+  transform: scale(1.05);
+  border-color: #15ff00; /* Aparece un borde azul al hacer hover */
+  box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.3); /* Agrega un efecto de sombra alrededor del borde */
+}
+
+/* Nombre del plan */
+.card h2 {
+  margin-bottom: 10px;
+  color: #333;
+  text-align: center;
+}
+
+/* Precio */
+.price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 1px;
+  text-align: center;
+}
+
+/* Lista de características */
+.card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.card ul li {
+  margin: 5px 0;
+  color: #555;
+}
+
+/* Botón */
+.btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s;
+  align-self: center; /* Centra el botón horizontalmente */
+}
+
+.btn:hover {
+  background-color: #00b377;
+}
+
+.check-icon {
+  color: green;  /* Color verde para el ganchito */
+  margin-right: 10px;  /* Espacio entre el ícono y el texto */
+}

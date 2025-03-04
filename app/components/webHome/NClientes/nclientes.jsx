@@ -35,22 +35,24 @@ export default function Nclientes() {
      return () => clearInterval(interval);
    }, [clientesFelices]); // Se ejecuta cada vez que `clientesFelices` cambia
 
-
-
   return (
     <section className="bannerclientes">
       <div className="stats">
         <div className="stat">
-          <h2>15+</h2>
+          <h2>+15</h2>
           <p>Años de Experiencia</p>
         </div>
         <div className="stat">
-          <h2>{clientesFelices.toLocaleString()}+</h2> {/* Se muestra el contador */}
+          <h2>+7</h2>
+          <p>Profesionales Especializados en RRHH</p>
+        </div>
+        <div className="stat">
+          <h2>+{clientesFelices.toLocaleString()}</h2> {/* Se muestra el contador */}
           <p>Clientes Felices</p>
         </div>
         <div className="stat">
           <h2>100%</h2>
-          <p>Satisfacción</p>
+          <p>Satisfacción de Clientes</p>
         </div>
       </div>
       {/* <a href="/Planes" className="btn">ACCEDE A TU PLAN AQU</a> */}

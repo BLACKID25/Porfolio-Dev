@@ -2,6 +2,7 @@ import React from "react";
 import "./planes.css"; // Asegúrate de importar el archivo de estilos
 import { plans } from "@/app/Hooks/Plnaes.info";
 import { asesoria } from "../Hooks/Asesoria.info";
+import Link from "next/link";
 
 // Si usas FontAwesome, también puedes importarlo
 import { FaCheckCircle } from 'react-icons/fa'; // Importación del ícono (si usas react-icons)
@@ -9,6 +10,11 @@ import { FaCheckCircle } from 'react-icons/fa'; // Importación del ícono (si u
 const PlansPage = () => {
   return (
     <div className="container">
+      <div>
+    <Link href="/">
+      <button className="btn">Home</button>
+    </Link>
+  </div>
       <h1 className="title">Planes de Suscripción</h1>
       <div className="plans">
         {plans.map((plan, index) => (
