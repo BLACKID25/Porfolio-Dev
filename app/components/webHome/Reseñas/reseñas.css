@@ -1,0 +1,64 @@
+.reviews {
+    margin-top: 80px;
+    text-align: center; /* Centrar el texto dentro del contenedor */
+  }
+  
+  .reviews h2 {
+   
+    color: #ffffff; /* Suponiendo que $text-light es un color como #6c757d */
+    margin: 0;
+    font-size: 30px;
+    text-transform: uppercase;
+  }
+  
+  .reviews__list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    justify-content: center; /* Centrar los elementos dentro de la lista */
+  }
+  
+  .reviews__list > div {
+    width: 31.33%;
+    color: #b2bac2; /* Suponiendo que $text-light es un color como #6c757d */
+    text-align: center;
+    padding: 0 20px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+  
+  .reviews__list > div > p {
+    text-align: justify;
+    opacity: 1;
+  }
+  
+  .reviews__list__user {
+    display: flex;
+    align-items: center;
+  }
+  
+  .reviews__list__user > .ui.image {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  
+  .reviews__list__user > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .reviews__list__user > div > span:first-of-type {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .reviews__list__user > div > span:last-of-type {
+    opacity: 0.8;
+    font-size: 12px;
+  }
+  

@@ -8,7 +8,7 @@
   }
   
   .how-my-courses-work {
-    margin-top: 90px;
+    margin-top: 10px;
   }
   
   .how-my-courses-work > h2 {
@@ -59,11 +59,11 @@
   }
   
   .how-my-courses-work__items > div > div h3 {
-    margin: 15px 0 6px 0;
+    margin: 10px 0 6px 0;
   }
   
   .how-my-courses-work__items > div > div p {
-    opacity: 0.8;
+    opacity: 1.2;
     font-size: 14px;
   }
   

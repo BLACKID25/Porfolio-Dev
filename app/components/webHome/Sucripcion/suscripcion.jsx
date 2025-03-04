@@ -12,8 +12,9 @@ export function Suscripcion() {
       imagen profesional que mereces. <br /> Todo a un bajo Costo $"</h2>
 
       <div className="home-courses__more">
-        <Link href="/createPerfil" passHref>
-          <button>Ver Planes Aquí</button>
+        <Link href="/Planes" passHref>
+        <br /><br />
+          <button>ACCEDE A TU PLAN AQUÍ</button>
         </Link>
       </div>
     </Container>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { MdHome, MdWork, MdCreate, MdInfo, MdContactMail } from 'react-icons/md'; // Importa los iconos
+import { MdHome, MdWork, MdEditSquare, MdInfo, MdContactMail } from 'react-icons/md'; // Importa los iconos
 import './NavBar.css'; // Importa los estilos
 
 export default function NavBar() {
@@ -21,12 +21,12 @@ export default function NavBar() {
             </Link>
           </li>
           <li>
-            <Link href="/createPerfil">
-              <MdCreate size={24} /> <span>Planes</span>
+            <Link href="/Planes">
+              <MdEditSquare size={24} /> <span>Planes</span>
             </Link>
           </li>
           <li>
-            <Link href="#">
+            <Link href="/Planes">
               <MdInfo size={24} /> <span>Quienes Somos</span>
             </Link>
           </li>
@@ -40,4 +40,4 @@ export default function NavBar() {
       <div className="hamburger">☰</div>
     </nav>
   );
-}
+} 
