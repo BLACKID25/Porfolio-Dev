@@ -16,7 +16,7 @@ export default function NavBar() {
             </Link>
           </li>
           <li>
-            <Link href="#">
+            <Link href="/Profesional">
               <MdWork size={24} /> <span>Profesionales</span>
             </Link>
           </li>

@@ -5,6 +5,7 @@ import { Info } from "./components/webHome/Info/info";
 import  Nclientes  from "./components/webHome/NClientes/nclientes";
 import "./page.css"; // Importa los estilos de Home
 import {Reviews} from "./components/webHome/Reseñas/reseñas" 
+import { PiePagina } from "./components/webHome/PiePagina/piepagina";
 
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
       <Nclientes/>
       <Info/>
       <Reviews/>
+      <PiePagina/>
       </main> 
     </div>
   );

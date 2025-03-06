@@ -1,0 +1,51 @@
+.footer {
+    background-color: #111;  /* Fondo oscuro elegante */
+    padding: 20px ;
+    color: white;  /* Texto en blanco */
+    font-size: 14px;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;  /* Ubica los textos en extremos */
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .pie-info {
+    > h2 {
+      text-align: center;
+      color: #fff;
+      font-size: 30px;
+      text-transform: uppercase;
+      margin: 50px 0 10px 0;
+    }
+
+     /* Centrar el contenedor del botón */
+     .pie-info__boton {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 25px;
+        }
+
+          /* Estilos para el botón */
+    .pie-info__boton button {
+        background-color: #007bff;  /* Color de fondo (azul) */
+        color: #fff;                /* Texto en blanco */
+        border: none;               /* Sin borde */
+        border-radius: 4px;         /* Bordes ligeramente redondeados */
+        padding: 12px 24px;         /* Espaciado interno */
+        font-size: 20px;            /* Tamaño de letra */
+        cursor: pointer;            /* Cambia el cursor al pasar */
+        transition: background-color 0.3s ease;
+        }
+        
+        .pie-info__boton button:hover {
+        background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+        }
+}
