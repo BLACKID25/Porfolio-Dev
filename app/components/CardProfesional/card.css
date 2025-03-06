@@ -1,0 +1,105 @@
+.user-card {
+  background: rgba(255, 255, 255, 0.534);
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px; /* Reducimos el padding */
+  text-align: center;
+  width: 250px; /* Reducimos el ancho */
+  border: 2px solid transparent; /* Borde inicial transparente */
+  transition: all 0.3s ease-in-out; /* Transición suave */
+  cursor: pointer; /* Cursor para indicar que es interactivo */
+  margin: 10px; /* Reducimos el margen entre las tarjetas */
+  display: inline-block; /* Hace que las tarjetas se muestren una al lado de la otra */
+  
+}
+
+/* Hover effect */
+.user-card:hover {
+  border-color: #4caf50; /* Color de borde al pasar el mouse */
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); /* Aumento de la sombra */
+  transform: translateY(-5px); /* Efecto de levantar la tarjeta */
+}
+
+/* Efecto de escala al pasar el mouse */
+.user-card:hover img {
+  transform: scale(1.1); /* Aumentar ligeramente la imagen */
+}
+
+/* Estilo de la foto */
+.user-photo {
+  width: 80px; /* Reducimos el tamaño de la foto */
+  height: 80px; /* Reducimos el tamaño de la foto */
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease-in-out; /* Transición suave al hacer hover */
+}
+
+.user-name {
+  font-size: 1.3rem; /* Reducimos el tamaño del texto */
+  font-weight: bold;
+}
+
+.user-profession {
+  font-size: 1rem; /* Reducimos el tamaño del texto */
+  color: #1f1e1e;
+}
+
+.user-description {
+  font-style: italic;
+  margin-top: 5px;
+  font-size: 0.9rem; /* Reducimos el tamaño del texto */
+}
+
+.user-skills {
+  text-align: left;
+  margin-top: 10px;
+}
+
+.user-skills ul {
+  list-style: none;
+  padding: 0;
+}
+
+.user-skills li {
+  background: #f0f0f0;
+  padding: 5px;
+  border-radius: 5px;
+  display: inline-block;
+  margin: 3px;
+  font-size: 0.9rem; /* Reducimos el tamaño de las habilidades */
+}
+
+.user-links a {
+  display: inline-block;
+  margin: 5px;
+  padding: 6px 10px; /* Reducimos el tamaño del botón */
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem; /* Reducimos el tamaño del texto */
+}
+
+.linkedin-button {
+  background: #0077b5;
+}
+
+.github-button {
+  background: #24292e;
+}
+
+.instagram-button {
+  background: #e1306c;
+}
+
+.facebook-button {
+  background: #1877f2;
+}
+
+/* Hover para los botones de redes sociales */
+.social-button:hover {
+  opacity: 0.8;
+}
+
+

@@ -32,3 +32,18 @@ export async function POST(req) {
         return NextResponse.json({ message: "Error interno del servidor" }, { status: 500 });
     }
 }
+
+// crear funcion get
+export async function GET(req) {
+    await connectDB();
+    try {
+        const profiles = await PerfilModel.find();
+        return NextResponse.json(profiles , { status: 200 });
+    }
+    catch (error){
+        console.error("Error al procesar la solicitud de busqueda de usuarios:", error);
+        return NextResponse.json({ message: "Error interno del servidor" }, { status:
+            500 });
+
+    }
+}   

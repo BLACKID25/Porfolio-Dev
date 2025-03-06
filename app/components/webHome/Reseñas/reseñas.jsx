@@ -15,7 +15,7 @@ export function Reviews() {
             <p>{review.comment}</p>
             <div className="reviews__list-user">
               {/* Se agregan width y height */}
-              {console.log("Ruta de la imagen:", review.avatar)}
+              
               <Image 
                 src={review.avatar} 
                 alt={`Avatar de ${review.userName}`} 
