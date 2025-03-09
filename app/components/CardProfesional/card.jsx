@@ -33,6 +33,8 @@ const UserCard = ({ user }) => {
           )}
 
           <div className="user-links">
+          <strong>Encuentrame en:</strong>
+          <br />
             {user.UrlLinkedin && (
               <a
                 href={user.UrlLinkedin}
