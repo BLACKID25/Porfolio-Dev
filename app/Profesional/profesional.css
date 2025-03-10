@@ -1,5 +1,5 @@
 /* Estilos generales */
-.containers {
+.profesional-containers {
     min-height: 100vh;
     background-color: #f3f4f6;
     display: flex;
@@ -59,7 +59,7 @@
     width: 100%;
   }
   /* Botón */
-.btn {
+.btnprofesional {
   background-color: #007bff;
   color: #fff;
   border: none;

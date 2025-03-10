@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const ProfileSchema = mongoose.Schema({
   name:           { type: String, required: true },
+  username:       { type: String, unique: true, required: true },
   email:          { type: String, required: true, unique: true },
   phone:          { type: String },
   UrlLinkedin:    { type: String },

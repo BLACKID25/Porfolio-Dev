@@ -31,11 +31,11 @@ export default function UsersPage() {
   );
 
   return (
-    <div className="containers">
+    <div className="profesional-containers">
       <h1 className="title">DIRECTORIO DE DESARROLLADORES</h1>
       <div>
     <Link href="/">
-      <button className="btn">Home</button> <br /> <br /> <br />
+      <button className="btnprofesional">Home</button> <br /> <br /> <br />
     </Link>
    
   </div>

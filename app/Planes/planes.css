@@ -8,7 +8,7 @@ body {
 }
 
 /* Contenedor principal */
-.container {
+.home-container {
   text-align: center;
   padding: 50px 20px;
 }
@@ -79,7 +79,7 @@ body {
 }
 
 /* Botón */
-.btn {
+.btnplan {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -92,7 +92,7 @@ body {
   align-self: center; /* Centra el botón horizontalmente */
 }
 
-.btn:hover {
+.btnplan:hover {
   background-color: #00b377;
 }
 

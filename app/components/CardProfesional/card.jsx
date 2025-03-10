@@ -1,13 +1,21 @@
+"use client"; // Asegura que el componente es cliente en Next.js
 import React from "react";
-import "./card.css"; // Importamos los nuevos estilos
+import { useRouter } from "next/navigation"; // Next.js usa esto
+import "./card.css";
 
 const UserCard = ({ user }) => {
+  const router = useRouter();
+
   const skillsArray = Array.isArray(user.skills)
     ? user.skills.flatMap((skill) => skill.split(","))
     : user.skills?.split(",") || [];
 
+    const handleClick = () => {
+      router.push(`/${user.username}`); // Redirige al portafolio del usuario
+    };
+
   return (
-    <div className="card"> {/* Aplicamos el efecto de la tarjeta */}
+    <div className="cardprofesional" onClick={handleClick} style={{ cursor: "pointer" }}>
       <div className="user-card">
         <div className="user-info">
           <img
@@ -15,7 +23,6 @@ const UserCard = ({ user }) => {
             alt={`${user.name}'s Foto`}
             className="user-photo"
           />
-
           <h2 className="user-name">{user.name}</h2>
           <p className="user-profession">{user.Profesion}</p>
           <p className="user-age">{user.ageExpe} años de experiencia</p>
@@ -33,28 +40,19 @@ const UserCard = ({ user }) => {
           )}
 
           <div className="user-links">
-          <strong>Encuentrame en:</strong>
-          <br />
+            <strong>Encuentrame en:</strong>
+            <br />
             {user.UrlLinkedin && (
-              <a
-                href={user.UrlLinkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-button linkedin-button"
-              >
+              <a href={user.UrlLinkedin} target="_blank" rel="noopener noreferrer" className="social-button linkedin-button">
                 LinkedIn
               </a>
             )}
             {user.Urlgithub && (
-              <a
-                href={user.Urlgithub}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-button github-button"
-              >
+              <a href={user.Urlgithub} target="_blank" rel="noopener noreferrer" className="social-button github-button">
                 GitHub
               </a>
             )}
+
             {user.Urlinstagram && (
               <a
                 href={user.Urlinstagram}

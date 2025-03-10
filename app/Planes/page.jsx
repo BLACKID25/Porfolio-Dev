@@ -9,10 +9,10 @@ import { FaCheckCircle } from 'react-icons/fa'; // Importación del ícono (si u
 
 const PlansPage = () => {
   return (
-    <div className="container">
+    <div className="home-container">
       <div>
     <Link href="/">
-      <button className="btn">Home</button>
+      <button className="btnplan">Home</button>
     </Link>
   </div>
       <h1 className="title">Planes de Suscripción</h1>
@@ -31,7 +31,7 @@ const PlansPage = () => {
                 </li>
               ))}
             </ul>
-            <button className="btn">Seleccionar</button>
+            <button className="btnplan">Seleccionar</button>
           </div>
         ))}
       </div>
@@ -52,7 +52,7 @@ const PlansPage = () => {
                 </li>
               ))}
             </ul>
-            <button className="btn">Seleccionar</button>
+            <button className="btnplan">Seleccionar</button>
           </div>
         ))}
       </div>
