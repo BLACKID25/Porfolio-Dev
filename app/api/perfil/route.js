@@ -8,8 +8,24 @@ export async function POST(req) {
         const profilebody = await req.json();
         console.log(profilebody);
 
+        console.log("name que viene del body",profilebody.name)
+
+        // Generar un `username` basado en el nombre
+            const usernameBase = profilebody.name.toLowerCase().replace(/\s+/g, "_"); // Ej: "Eric Chourio" -> "ericchourio"
+            let username = usernameBase;
+            console.log("Este es el username para la URL", username)
+            let count = 1;
+
+            while (await PerfilModel.findOne({ username })) {
+                console.log(`El username ${username} ya existe. Probando con otro...`);
+                username = `${usernameBase}${count}`;
+                count++;
+            }
+            console.log("Username final después del chequeo de duplicados:", username);
+
         const NewPerfil = await PerfilModel.create({
             name: profilebody.name,
+            username: username,
             email: profilebody.email,
             phone: profilebody.phone,
             UrlLinkedin: profilebody.UrlLinkedin,

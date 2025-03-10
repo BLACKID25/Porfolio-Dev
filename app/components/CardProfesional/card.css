@@ -10,7 +10,6 @@
   cursor: pointer; /* Cursor para indicar que es interactivo */
   margin: 10px; /* Reducimos el margen entre las tarjetas */
   display: inline-block; /* Hace que las tarjetas se muestren una al lado de la otra */
-  
 }
 
 /* Hover effect */
