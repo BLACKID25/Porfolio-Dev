@@ -1,0 +1,162 @@
+/* Fondo de la página con imagen */
+.portfolio-container {
+    position: relative;
+    background-image: url('/fondo Portafolio.jpg'); /* Cambia la imagen de fondo */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 255, 255);
+    text-align: center;
+  }
+  
+  /* Capa de fondo con transparencia */
+  .portfolio-overlay {
+    width: 200%;
+    max-width: 1500px;
+    padding: 150px;
+    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 3px solid white;
+  }
+  
+  /* Texto de fondo grande */
+  .background-title {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 300px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.178);
+    z-index: -1;
+  }
+  
+  /* Contenedor de perfil y datos */
+  .portfolio-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    text-align: left;
+  }
+  
+  /* Foto de perfil */
+  .profile-wrapper {
+    flex: -1;
+    max-width: 12%;
+  }
+  
+  .profile-pic {
+    width: 100%;
+    border-radius: 50%;
+    border: 3px solid white;
+  }
+  
+  /* Información del usuario */
+  .info-container {
+    flex: 2;
+    padding: 20px;
+  }
+  
+  .portfolio-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .portfolio-description {
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+  
+  /* Redes sociales */
+  .social-links {
+    margin-top: 20px;
+  }
+  
+  .social-icon {
+    font-size: 24px;
+    margin: 0 10px;
+    color: white;
+    transition: 0.3s;
+  }
+  
+  .social-icon:hover {
+    color: #00aced;
+  }
+  
+  /* Secciones de habilidades y proyectos */
+  .section-title {
+    margin-top: 40px;
+    font-size: 1.5rem;
+    border-bottom: 2px solid white;
+    display: inline-block;
+    padding-bottom: 5px;
+    
+  }
+  
+  .skills-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .skill-item {
+    background: #0077b5;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: transform 0.3s;
+  }
+  
+  .skill-item:hover {
+    transform: scale(1.1);
+  }
+
+  /* Proyectos */
+  .projects-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .project-card {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+    width: 250px;
+    text-align: center;
+  }
+  
+  .project-image {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  /* Botón de descarga de CV */
+ 
+  .download-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: #28a745;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.3s;
+  }
+  
+  .download-button:hover {
+    background: #218838;
+    transform: scale(1.1);
+  }
+ 
