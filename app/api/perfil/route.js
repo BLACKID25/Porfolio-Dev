@@ -11,7 +11,7 @@ export async function POST(req) {
         console.log("name que viene del body",profilebody.name)
 
         // Generar un `username` basado en el nombre
-            const usernameBase = profilebody.name.toLowerCase().replace(/\s+/g, "_"); // Ej: "Eric Chourio" -> "ericchourio"
+            const usernameBase = profilebody.name.toLowerCase().replace(/\s+/g, ""); // Ej: "Eric Chourio" -> "ericchourio"
             let username = usernameBase;
             console.log("Este es el username para la URL", username)
             let count = 1;

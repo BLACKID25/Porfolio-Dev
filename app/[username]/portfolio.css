@@ -14,8 +14,8 @@
   
   /* Capa de fondo con transparencia */
   .portfolio-overlay {
-    width: 200%;
-    max-width: 1500px;
+    width: 300%;
+    max-width: 1750px;
     padding: 150px;
     background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
     border-radius: 15px;

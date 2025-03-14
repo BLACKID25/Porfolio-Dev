@@ -16,10 +16,6 @@ const ProfileSchema = mongoose.Schema({
   description:    { type: String }, // CAMPO PARA BREVE DESCRIPCION PROFESION Y EXPERIENCIAS
   curriCV:        { type: String }, // CARGAR EL CURRICULO
   skills:         [String], // Lista de habilidades
-  nameproyect:         { type: String }, // BOMBRE DE PROYECTOS 
-  tecnologiproyect:    { type: String }, // TECNOLOGIAS DE PROYECTOS 
-  photoproyect:        { type: String }, // FOTOS DE PROYECTOS
-  descproyect:         { type: String }, // DESCRIPCION DE PROYECTOS
  
 });
 export const PerfilModel = mongoose.models.Profile || mongoose.model('Profile', ProfileSchema);
