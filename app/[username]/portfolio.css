@@ -1,37 +1,52 @@
 /* Fondo de la página con imagen */
 .portfolio-container {
-    position: relative;
-    background-image: url('/fondo Portafolio.jpg'); /* Cambia la imagen de fondo */
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: rgb(255, 255, 255);
-    text-align: center;
-  }
+  background-image: url('/fondo Portafolio.jpg'); /* Imagen de fondo */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh; /* Mínimo el alto de la pantalla */
+  height: auto; /* Permitir que crezca si hay más contenido */
+  width: 100%; /* Ocupar todo el ancho */
+  display: flex;
+  flex-direction: column; /* Asegura que el contenido fluya verticalmente */
+  justify-content: center;
+  align-items: center;
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
   
-  /* Capa de fondo con transparencia */
-  .portfolio-overlay {
-    width: 300%;
-    max-width: 1750px;
-    padding: 150px;
-    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    border: 3px solid white;
-  }
+/* Capa de fondo con transparencia */
+.portfolio-overlay {
+  width: 300%; /* Hace que el elemento sea tres veces más ancho que su contenedor */
+  max-width: 1750px; /* Limita el ancho máximo a 1750px */
+  padding: 150px; /* Agrega espacio interno alrededor del contenido */
+  background: rgba(0, 0, 0, 0.5); /* Aplica un fondo negro semitransparente (50% de opacidad) */
+  border-radius: 15px; /* Redondea las esquinas con un radio de 15px */
+  backdrop-filter: blur(10px); /* Aplica un desenfoque al fondo detrás del elemento */
+  border: 3px solid rgb(184, 130, 130); /* Agrega un borde de 3px con color rojo suave */
+}
+
   
   /* Texto de fondo grande */
   .background-title {
     position: absolute;
-    top: 10%;
+    top: 17%;
     left: 50%;
     transform: translateX(-50%);
     font-size: 300px;
     font-weight: bold;
     color: rgba(255, 255, 255, 0.178);
+    z-index: -1;
+  }
+  /* Texto de fondo chico */
+  .background-title2 {
+    position:fixed;
+    top: 23%;
+    left: 78%;
+    transform: translateX(-50%);
+    font-size: 110px;
+    font-weight: bold;
+    color: rgba(0, 255, 42, 0.226);
     z-index: -1;
   }
   
@@ -42,13 +57,20 @@
     justify-content: space-around;
     align-items: center;
     text-align: left;
+    margin-top: -130;
+    padding-top: -10px; /* Puedes ajustar este valor si aún hay mucho espacio */
+  
   }
   
   /* Foto de perfil */
   .profile-wrapper {
-    flex: -1;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente si el contenedor tiene altura */
+    width: 100%; /* Asegura que ocupe el ancho completo */
     max-width: 12%;
-  }
+    margin: 0 auto; /* Centra horizontalmente en caso de que no use flexbox */
+}
   
   .profile-pic {
     width: 100%;
@@ -59,18 +81,23 @@
   /* Información del usuario */
   .info-container {
     flex: 2;
-    padding: 20px;
+    padding: 3%;
   }
   
   .portfolio-title {
-    font-size: 2rem;
-    margin-bottom: 10px;
+    font-size: 4rem;
+    margin-top: 0; /* Reduce espacio en la parte superior */
+    margin-bottom: 45px; /* Mantiene separación con la descripción */
   }
   
   .portfolio-description {
-    font-style: italic;
-    margin-bottom: 20px;
-  }
+    font-style: normal;
+    margin-bottom: 25px;
+    text-align: justify; /* Justifica el texto */
+    max-width: 1500px; /* Opcional: Limita el ancho para mejorar la legibilidad */
+    margin-left: auto; /* Centra el texto horizontalmente */
+    margin-right: auto; /* Centra el texto horizontalmente */
+}
   
   /* Redes sociales */
   .social-links {
@@ -80,7 +107,7 @@
   .social-icon {
     font-size: 24px;
     margin: 0 10px;
-    color: white;
+    color: rgb(10, 85, 245);
     transition: 0.3s;
   }
   
@@ -160,3 +187,20 @@
     transform: scale(1.1);
   }
  
+  /* Botón */
+.button-porfolio {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s;
+  align-self: center; /* Centra el botón horizontalmente */
+}
+
+.button-porfolio:hover {
+  background-color: #00b377;
+}
