@@ -11,10 +11,10 @@ const PlansPage = () => {
   return (
     <div className="home-container">
       <div>
-    <Link href="/">
-      <button className="btnplan">Home</button>
-    </Link>
-  </div>
+        <Link href="/">
+          <button className="btnplan">Home</button>
+        </Link>
+      </div>
       <h1 className="title">Planes de Suscripción</h1>
       <div className="plans">
         {plans.map((plan, index) => (
