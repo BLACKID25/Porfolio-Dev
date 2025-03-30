@@ -1,10 +1,5 @@
 /* Reset de márgenes y fuentes */
-* {
-    margin: 1;
-    padding: 0;
-   
-    font-family: Arial, sans-serif;
-}
+
 
 /* Estilos del banner */
 .bannerclientes {

@@ -13,6 +13,7 @@
   align-items: center;
   color: rgb(255, 255, 255);
   text-align: center;
+  position: relative; /* Necesario para que el botón se posicione correctamente */
 }
   
 /* Capa de fondo con transparencia */
@@ -26,6 +27,30 @@
   border: 3px solid rgb(184, 130, 130); /* Agrega un borde de 3px con color rojo suave */
 }
 
+.divider {
+  border-top: 3px solid red; /* Color inicial */
+  margin: 5px 5px;
+  animation: changeColor 5s infinite; /* Llama a la animación 'changeColor' cada 5 segundos de forma infinita */
+}
+
+/* Definir la animación */
+@keyframes changeColor {
+  0% {
+    border-top-color: rgb(255, 0, 0); /* Rojo */
+  }
+  25% {
+    border-top-color: rgb(0, 255, 0); /* Verde */
+  }
+  50% {
+    border-top-color: rgb(0, 0, 255); /* Azul */
+  }
+  75% {
+    border-top-color: rgb(255, 255, 0); /* Amarillo */
+  }
+  100% {
+    border-top-color: rgb(255, 0, 255); /* Magenta */
+  }
+}
   
   /* Texto de fondo grande */
   .background-title {
@@ -58,19 +83,20 @@
     align-items: center;
     text-align: left;
     margin-top: -130;
-    padding-top: -10px; /* Puedes ajustar este valor si aún hay mucho espacio */
+    padding-top: 1%; /* Puedes ajustar este valor si aún hay mucho espacio */
   
   }
   
   /* Foto de perfil */
   .profile-wrapper {
     display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente si el contenedor tiene altura */
-    width: 100%; /* Asegura que ocupe el ancho completo */
-    max-width: 12%;
-    margin: 0 auto; /* Centra horizontalmente en caso de que no use flexbox */
-}
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 200px;  /* Establecer un max-width en lugar de un valor fijo en porcentaje */
+    margin: 0 auto;
+  }
+  
   
   .profile-pic {
     width: 100%;
@@ -80,14 +106,14 @@
   
   /* Información del usuario */
   .info-container {
-    flex: 2;
+    flex: 4;
     padding: 3%;
   }
   
   .portfolio-title {
     font-size: 4rem;
     margin-top: 0; /* Reduce espacio en la parte superior */
-    margin-bottom: 45px; /* Mantiene separación con la descripción */
+    margin-bottom: 1px; /* Mantiene separación con la descripción */
   }
   
   .portfolio-description {
@@ -132,6 +158,9 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 15px;
+    margin: 15 290px;
+    margin-left: auto; /* Centra el texto horizontalmente */
+    margin-bottom: 50px; /* Mantiene separación con la descripción */
   }
   
   .skill-item {
@@ -187,20 +216,41 @@
     transform: scale(1.1);
   }
  
-  /* Botón */
-.button-porfolio {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  margin-top: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s;
-  align-self: center; /* Centra el botón horizontalmente */
-}
+  .button-porfolio {
+    position: absolute;  /* Permite colocarlo en una posición específica */
+    top: 20px;          /* Ajusta la distancia desde la parte superior */
+    right: 20px;        /* Ajusta la distancia desde la derecha */
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+  }
+  
+  .button-porfolio:hover {
+    background-color: #00b377;
+  }
 
-.button-porfolio:hover {
-  background-color: #00b377;
-}
+  @media (max-width: 768px) {
+    .portfolio-content {
+      flex-direction: column;  /* Coloca los elementos en columna en pantallas pequeñas */
+      text-align: center;
+    }
+  
+    .profile-wrapper {
+      max-width: 50%;  /* Ajuste el tamaño en dispositivos pequeños */
+    }
+  
+    .portfolio-title {
+      font-size: 2rem;  /* Reducir el tamaño del título */
+    }
+  
+    .projects-container {
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+  
