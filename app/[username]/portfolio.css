@@ -18,7 +18,7 @@
   
 /* Capa de fondo con transparencia */
 .portfolio-overlay {
-  width: 300%; /* Hace que el elemento sea tres veces más ancho que su contenedor */
+  width: 90%; /* Hace que el elemento sea tres veces más ancho que su contenedor */
   max-width: 1750px; /* Limita el ancho máximo a 1750px */
   padding: 150px; /* Agrega espacio interno alrededor del contenido */
   background: rgba(0, 0, 0, 0.5); /* Aplica un fondo negro semitransparente (50% de opacidad) */
@@ -30,7 +30,8 @@
 .divider {
   border-top: 3px solid red; /* Color inicial */
   margin: 5px 5px;
-  animation: changeColor 5s infinite; /* Llama a la animación 'changeColor' cada 5 segundos de forma infinita */
+  animation: changeColor 5s infinite;
+  transition: border-top-color 0.5s ease-in-out; /* Llama a la animación 'changeColor' cada 5 segundos de forma infinita */
 }
 
 /* Definir la animación */
@@ -82,7 +83,7 @@
     justify-content: space-around;
     align-items: center;
     text-align: left;
-    margin-top: -130;
+    margin-top: -130px;
     padding-top: 1%; /* Puedes ajustar este valor si aún hay mucho espacio */
   
   }
@@ -200,8 +201,9 @@
   /* Botón de descarga de CV */
  
   .download-button {
-    display: inline-block;
-    margin-top: 20px;
+    position: absolute;
+    top: 107px; /* Ajusta según necesites */
+    right: 225px; /* Lo coloca en la esquina derecha */
     padding: 12px 24px;
     background: #28a745;
     color: white;
