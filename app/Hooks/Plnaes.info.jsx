@@ -11,7 +11,7 @@ export const plans = [
     },
 
     { 
-        name: "Pro", 
+        name: "Profesional", 
         price: "$12/mes", 
         features: [
             "1 Portafolios", 
@@ -21,7 +21,7 @@ export const plans = [
         ] 
     },
     { 
-        name: "Premium", 
+        name: "Empresarial", 
         price: "$35/mes", 
         features: [
             "1 Portafolios", 

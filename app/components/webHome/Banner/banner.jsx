@@ -13,7 +13,7 @@ export function Banner() {
             </h1>
             <h2>
               Da el siguiente paso en tu carrera digital, alojamos tu portafolio de forma <br />  exclusiva y sin complicaciones. ¡Haz que tu presencia online se vea increíble y 
-              <br /> accesible con una URL profesional, fácil de recordar y sin guiones ni puntos!
+              <br /> accesible con una URL profesional, fácil de recordar, sin guiones ni puntos!
               <br /> 
               
             </h2>

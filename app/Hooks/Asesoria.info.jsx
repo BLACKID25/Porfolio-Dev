@@ -1,6 +1,6 @@
 export const asesoria = [
     { 
-        name: "Asesoria Básica", 
+        name: "Básica", 
         price: "$5/mes", 
         features: [
             "Revisión de Curriculo", 
@@ -9,7 +9,7 @@ export const asesoria = [
     },
 
     { 
-        name: "Asesoria Pro", 
+        name: "Profesional", 
         price: "$18/mes", 
         features: [
             "Revisión de Curriculo", 
@@ -18,7 +18,7 @@ export const asesoria = [
         ] 
     },
     { 
-        name: "Asesoria Premium", 
+        name: "Empresarial", 
         price: "$35/mes", 
         features: [
             "Revisión de Curriculo", 

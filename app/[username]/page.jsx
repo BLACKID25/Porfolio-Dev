@@ -38,7 +38,6 @@ const Portafolio = () => {
   
   return (
     
-
     <div className="portfolio-container">
       <div className="portfolio-overlay">
         <h1 className="background-title2">professional</h1>
@@ -58,6 +57,10 @@ const Portafolio = () => {
             {/* Datos del usuario */}
             <div className="info-container">
               <h1 className="portfolio-title">{user.name}</h1>
+              {/* Botón de descarga de CV */}
+              <a href={user.curriCV} download className="download-button">
+                Descargar CV
+              </a>
               <div className="divider"></div>
               <ul className="skills-list">
                 {user.skills?.map((skill, index) => (
@@ -118,10 +121,7 @@ const Portafolio = () => {
             )}
           </div>
 
-        {/* Botón de descarga de CV */}
-        <a href={user.curriCV} download className="download-button">
-          Descargar CV
-        </a>
+        
         <div>
           <Link href="/">
             <button className="button-porfolio">Home</button>
