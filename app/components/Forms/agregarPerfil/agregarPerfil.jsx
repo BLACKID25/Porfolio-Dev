@@ -43,6 +43,12 @@ const ProfileForm = () => {
   return (
     <div className="formulario-perfil">
       <form className="max-w-xl mx-auto p-4 bg-gray-100 shadow rounded" onSubmit={handleSubmit}>
+    <div className="nav-tophome">
+            <Link href="/">
+            <button className="home-buttonhome">🏠 Inicio</button>
+            </Link>
+        </div>
+
         <h2 className="text-2xl font-bold mb-4">Crear Nuevo Perfil</h2>
 
         <div className="form-group">
@@ -69,9 +75,6 @@ const ProfileForm = () => {
               required
             />
           </div>
-        </div>
-
-        <div className="form-group">
           <div className="field mb-4">
             <label className="block text-gray-700">Teléfono:</label>
             <input
@@ -83,12 +86,51 @@ const ProfileForm = () => {
               required
             />
           </div>
+        </div>
+
+        <div className="form-group">
+          <div className="field mb-4">
+            <label className="block text-gray-700">País:</label>
+            <input
+              type="text"
+              name="country"
+              value={formData.country}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+              required
+            />
+          </div>
+
+          <div className="field mb-4">
+            <label className="block text-gray-700">Profesión:</label>
+            <input
+              type="text"
+              name="Profesion"
+              value={formData.Profesion}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+
+          <div className="field mb-4">
+            <label className="block text-gray-700">Años de experiencia:</label>
+            <input
+              type="number"
+              name="ageExpe"
+              value={formData.ageExpe}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+        </div>
+
+        <div className="form-group">
+         
 
           {[
             { label: "LinkedIn", field: "UrlLinkedin" },
             { label: "GitHub", field: "Urlgithub" },
             { label: "Instagram", field: "Urlinstagram" },
-            { label: "Facebook", field: "Urlfacebook" },
           ].map(({ label, field }) => (
             <div key={field} className="field mb-4">
               <label className="block text-gray-700">{label}:</label>
@@ -125,58 +167,7 @@ const ProfileForm = () => {
               className="w-full p-2 border rounded"
             />
           </div>
-        </div>
 
-        <div className="form-group">
-          <div className="field mb-4">
-            <label className="block text-gray-700">País:</label>
-            <input
-              type="text"
-              name="country"
-              value={formData.country}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
-
-          <div className="field mb-4">
-            <label className="block text-gray-700">Profesión:</label>
-            <input
-              type="text"
-              name="Profesion"
-              value={formData.Profesion}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-            />
-          </div>
-        </div>
-
-        <div className="form-group">
-          <div className="field mb-4">
-            <label className="block text-gray-700">Años de experiencia:</label>
-            <input
-              type="number"
-              name="ageExpe"
-              value={formData.ageExpe}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-            />
-          </div>
-
-          <div className="field mb-4">
-            <label className="block text-gray-700">Descripción:</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-              rows="3"
-            />
-          </div>
-        </div>
-
-        <div className="form-group">
           <div className="field mb-4">
             <label className="block text-gray-700">Habilidades:</label>
             <input
@@ -189,15 +180,28 @@ const ProfileForm = () => {
           </div>
         </div>
 
+
+
+        <div className="form-group">
+
+
+          <div className="field mb-4">
+            <label className="block text-gray-700">Resumen Profesional:</label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+              rows="4"
+            />
+          </div>
+        </div>
+
+
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
           Crear Perfil
         </button>
 
-        <Link href="/">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
-            Regresar
-          </button>
-        </Link>
       </form>
     </div>
   );

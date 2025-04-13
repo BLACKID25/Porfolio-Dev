@@ -1,81 +1,66 @@
-"use client"; // Necesario en Next.js con App Router
-
+"use client";
 
 import React from "react";
-import { useRouter } from 'next/navigation'; // Importar desde next/navigation
+import { useRouter } from 'next/navigation';
 import "./planes.css";
 import { plans } from "@/app/Hooks/Plnaes.info";
 import { asesoria } from "../Hooks/Asesoria.info";
 import Link from "next/link";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa6";
 
 const PlansPage = () => {
-  const router = useRouter(); // Inicializar el router
+  const router = useRouter();
 
-  // Función para manejar la selección de un plan
   const handleSelectPlan = (planName) => {
     router.push(`/createPerfil?plan=${encodeURIComponent(planName)}`);
   };
 
   return (
-    <div className="home-containers">
-      {/* Botón Home alineado a la derecha */}
-      <div className="home-button-container">
+    <div className="plans-container">
+      <div className="nav-top">
         <Link href="/">
-          <button className="btnplan">Home</button>
+          <button className="home-button">🏠 Inicio</button>
         </Link>
       </div>
 
-      {/* Sección de Planes de Suscripción */}
-      <h1 className="title">Planes de Suscripción</h1>
-      <div className="plans">
-        {plans.map((plan, index) => (
-          <div className="card" key={index}>
+      <h1 className="section-title">Planes de Suscripción</h1>
+      <div className="plans-grid">
+      {plans.map((plan, index) => (
+          <div
+            className={`plan-card ${plan.highlighted ? "popular" : ""}`}
+            key={index}
+          >
+            {plan.highlighted && <div className="badge">MÁS POPULAR</div>}
             <h2>{plan.name}</h2>
-            <p className="price">{plan.price}</p>
-            <ul>
+            <div className="plan-price">{plan.price}</div>
+            <ul className="plan-features">
               {plan.features.map((feature, i) => (
-                <li key={i}>
-                  <span className="check-icon">
-                    <FaCheckCircle />
-                  </span>
-                  {feature}
-                </li>
+                <li key={i}><FaCheck className="icon-check" />{feature}</li>
               ))}
             </ul>
             <button
-              className="btnplan"
               onClick={() => handleSelectPlan(plan.name)}
-            >
-              Seleccionar
+              className="select-btn"
+              >
+              Seleccionar Plan
             </button>
           </div>
         ))}
       </div>
 
-      {/* Sección de Planes de Asesoramiento */}
-      <br /> <br />
-      <h1 className="title">Planes de Asesorias</h1>
-      <div className="plans">
+      <h1 className="section-title">Planes de Asesorías</h1>
+      <div className="plans-grid">
         {asesoria.map((plan, index) => (
-          <div className="card" key={index}>
+          <div className="plan-card" key={index}>
             <h2>{plan.name}</h2>
-            <p className="price">{plan.price}</p>
-            <ul>
+            <div className="plan-price">{plan.price}</div>
+            <ul className="plan-features">
               {plan.features.map((feature, i) => (
-                <li key={i}>
-                  <span className="check-icon">
-                    <FaCheckCircle />
-                  </span>
-                  {feature}
-                </li>
+                <li key={i}><FaCheck className="icon-check" />{feature}</li>
               ))}
             </ul>
-            <button
-              className="btnplan"
-              onClick={() => handleSelectPlan(plan.name)}
-            >
-              Seleccionar
+            <button onClick={() => handleSelectPlan(plan.name)} className="select-btn">
+              Seleccionar Plan
             </button>
           </div>
         ))}

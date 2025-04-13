@@ -1,20 +1,21 @@
 .formulario-perfil {
+    margin: 4.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 85vh;
     background-image: url('/home-general.jpg');
-    background-size: cover;
+    /* background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
     font-family: 'Arial', sans-serif;
     padding: 0 1rem; /* Añadimos un poco de espacio horizontal */
 }
 
 form {
-    background: #ffffff;
+    background: #f1040400;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
     width: 100%;
     max-width: 1200px;
     padding: 2rem;
@@ -29,9 +30,9 @@ h2 {
 }
 
 label {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 500;
-    color: #555;
+    color: #ffffff;
 }
 
 input, textarea {
@@ -114,3 +115,21 @@ button:disabled {
         gap: 2rem;
     }
 }
+
+/* Botón de home */
+.nav-tophome {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+  }
+
+  .home-buttonhome {
+    background-color: transparent;
+    border: 2px solid #007bff;
+    color: #007bff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
