@@ -1,15 +1,17 @@
 /* Fondo y tipografía */
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.page-background {
+  font-family: 'Arial', sans-serif;
   background: linear-gradient(135deg, #f4f7fe, #e8efff);
   background-image: url('/Home-general.jpg');
-
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-height: 98vh;
 }
 
 /* Contenedor general */
 .plans-container {
-  padding: 0.5rem;
+  padding: 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
 }
