@@ -1,42 +1,44 @@
 .formulario-perfil {
+ 
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 85vh;
-    background-image: url('/home-general.jpg');
+
+    background-image: url('/Home-general.jpg');
+    background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    min-height: 98vh;
     font-family: 'Arial', sans-serif;
-    padding: 0 1rem; /* Añadimos un poco de espacio horizontal */
+   
 }
 
 form {
-    background: #ffffff;
+    background: #9c212100;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgb(255, 255, 255);
     width: 100%;
-    max-width: 1200px;
-    padding: 2rem;
-    margin: 1rem;
+    max-width: 1250px;
+    padding: 4rem;
+ 
 }
 
 h2 {
     text-align: center;
     font-size: 2rem;
-    color: #333;
-    margin-bottom: 2rem;
+    color: #ffffff;
+    margin-bottom: 5rem;
 }
 
 label {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 500;
-    color: #555;
+    color: #ffffff;
 }
 
 input, textarea {
     width: 100%;
-    padding: 12px;
+    padding: 13px;
     border-radius: 6px;
     border: 1px solid #ccc;
     background-color: #f9f9f9;
@@ -88,17 +90,17 @@ button:disabled {
 .form-group {
     display: grid;
     grid-template-columns: 2fr 2fr;
-    gap: 1.5rem;
+
 }
 
 .form-group .field {
     display: flex;
     flex-direction: column;
-    margin-bottom: 1rem;
+    margin-bottom: 3rem;
 }
 
 .form-group label {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 /* Campos de redes sociales distribuidos horizontalmente */
@@ -114,3 +116,21 @@ button:disabled {
         gap: 2rem;
     }
 }
+
+/* Botón de home */
+.nav-tophome {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+  }
+
+  .home-buttonhome {
+    background-color: transparent;
+    border: 2px solid #007bff;
+    color: #007bff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }

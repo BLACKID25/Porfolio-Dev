@@ -18,7 +18,8 @@ export const plans = [
             "Soporte prioritario", 
             "1GB de almacenamiento",
             "1 Asesoria de CV al mes"
-        ] 
+        ],
+        highlighted: true, // 👈 NUEVO
     },
     { 
         name: "Empresarial", 

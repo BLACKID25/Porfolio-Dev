@@ -26,7 +26,8 @@ export const asesoria = [
             "Revisión de Postulaciones",
             "Tips de Busqueda Laboral",
             "Paginas de busqueda Laboral",
-        ] 
+        ],
+        highlighted: true, // 👈 NUEVO
     },
     
   ];
