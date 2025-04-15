@@ -15,6 +15,7 @@ const ProfileSchema = mongoose.Schema({
   photo:          { type: String }, // FOTO
   description:    { type: String }, // CAMPO PARA BREVE DESCRIPCION PROFESION Y EXPERIENCIAS
   curriCV:        { type: String }, // CARGAR EL CURRICULO
+  typePlan:       { type: String }, // GUARDA EL TIPO DE PLAN SELECCIONADO
   skills:         [String], // Lista de habilidades
  
 });

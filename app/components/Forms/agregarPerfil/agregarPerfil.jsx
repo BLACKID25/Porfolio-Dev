@@ -4,8 +4,19 @@ import React, { useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import './apregarperfil.css'
+import { useSearchParams } from "next/navigation";
+import Swal from "sweetalert2";
+import { useRouter } from 'next/navigation';
 
 const ProfileForm = () => {
+    const router = useRouter();
+
+    //EXTRAEMOS DE AQUI EL NOMBRE DEL PLAN
+    const searchParams = useSearchParams()
+    const nameplan = searchParams.get('plan')
+    console.log("Nombre del plan seleccionado", nameplan)
+
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -13,15 +24,36 @@ const ProfileForm = () => {
     UrlLinkedin: "",
     Urlgithub: "",
     Urlinstagram: "",
-    Urlfacebook: "",
     photo: "",
     curriCV: "",
     country: "",
     Profesion: "",
     ageExpe: "",
     description: "",
-    skills: "",
+    skills: [],
+    typePlan: nameplan,
   });
+
+  const [skillInput, setSkillInput] = useState("");
+
+  const handleSkillKeyDown = (e) => {
+    if ((e.key === "Enter" || e.key === ",") && skillInput.trim()) {
+      e.preventDefault();
+      if (!formData.skills.includes(skillInput.trim())) {
+        setFormData({
+          ...formData,
+          skills: [...formData.skills, skillInput.trim()],
+        });
+      }
+      setSkillInput("");
+    }
+  };
+  
+  const removeSkill = (indexToRemove) => {
+    const updatedSkills = formData.skills.filter((_, index) => index !== indexToRemove);
+    setFormData({ ...formData, skills: updatedSkills });
+  };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,13 +64,36 @@ const ProfileForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post("/api/perfil", formData);
-      console.log("Perfil creado:", response.data);
-      alert("Perfil creado con éxito");
+      
+      
+      
+    
+        console.log("Perfil creado:", response.data);
+        
+        Swal.fire({
+          icon: 'success',
+          title: 'Usuario creado con éxito',
+          html: `Haga click en continuar para 
+                <br/> procesar el pago`,
+                
+              }).then((result) => {
+                // Este bloque de código se ejecutará después de que el usuario cierre la alerta
+                if (result.isConfirmed) {
+                    localStorage.clear()
+                  // Redirigir a la página siguiente
+                  // Por ejemplo, podrías usar router.push para navegar a la página siguiente
+                  router.push('/'); //asi mientras hacemos el proceso de pago de mercadolibre
+                }
+              });
+      
+
     } catch (error) {
       console.error("Error al crear el perfil:", error);
       alert("Hubo un error al crear el perfil");
     }
   };
+
+    
 
   return (
     <div className="formulario-perfil">
@@ -165,14 +220,14 @@ const ProfileForm = () => {
                     </div>
 
                 <div className="field mb-4">
-                        <label className="block text-gray-700">Habilidades:</label>
-                        <input
+                    <label className="block text-gray-700">Habilidades:</label>
+                    <input
                         type="text"
                         name="skills"
                         value={formData.skills}
                         onChange={handleChange}
                         className="w-full p-2 border rounded"
-                        />
+                    />
                 </div>
             </div>
 

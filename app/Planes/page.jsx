@@ -8,14 +8,17 @@ import { asesoria } from "../Hooks/Asesoria.info";
 import Link from "next/link";
 import { FaCheck } from "react-icons/fa6";
 
+
 const PlansPage = () => {
+
   const router = useRouter();
 
-  const handleSelectPlan = (planName) => {
+    const handleSelectPlan = (planName) => {
     router.push(`/createPerfil?plan=${encodeURIComponent(planName)}`);
-  };
+    localStorage.setItem("TipoPlan", planName)
+    };
 
-  return (
+   return (
     <div className="page-background">
     <div className="plans-container">
       <div className="nav-top">
@@ -80,7 +83,7 @@ const PlansPage = () => {
         ))}
       </div>
     </div>
-</div>
+   </div>
   );
 };
 
