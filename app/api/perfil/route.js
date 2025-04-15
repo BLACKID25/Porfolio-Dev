@@ -6,7 +6,7 @@ export async function POST(req) {
     await connectDB();
     try {
         const profilebody = await req.json();
-        console.log(profilebody);
+        console.log("Esto viene del body",profilebody);
 
         console.log("name que viene del body",profilebody.name)
 
@@ -38,7 +38,8 @@ export async function POST(req) {
             Profesion: profilebody.Profesion,
             ageExpe: profilebody.ageExpe,
             description: profilebody.description,
-            skills: profilebody.skills,
+            skills: profilebody.skills.split(',').map(skill => skill.trim()),
+            typePlan: profilebody.typePlan
         });
 
         return NextResponse.json({ data: NewPerfil }, { status: 201 });
