@@ -43,7 +43,10 @@ const ProfileForm = () => {
             descproyect: "" },
     ]);
 
-  const handleChange = (e) => {
+   // Estado para mostrar el modal que activa el pago
+    const [showPaymentModal, setShowPaymentModal] = useState(false); 
+
+    const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -54,42 +57,84 @@ const ProfileForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post("/api/perfil", formData);
-
+  
        const result = response.data
 
-        //1. si el perfin se guardo correctamente 
+        //1. si el perfil se guardo correctamente 
+            if(response.status === 201){
+                // 2. Si hay proyectos, procesarlos y enviarlos
+                if (showProjects && projects.length > 0) {
+                    const proyectosProcesados = projects.map((p) => ({
+                    ...p,
+                    tecnologiproyect: p.tecnologiproyect.split(',').map(t => t.trim()), // procesamos los datos del proyecto
+                  
+                    }));
+            
+                    await axios.post("/api/proyect", { 
+                        name: formData.name,
+                        proyectos: proyectosProcesados,
+                    });
+                }
+            }
 
-        // 2. Si hay proyectos, procesarlos y enviarlos
-        if (showProjects && projects.length > 0) {
-            const proyectosProcesados = projects.map((p) => ({
-            ...p,
-            tecnologiproyect: p.tecnologiproyect.split(',').map(t => t.trim()), // procesamos los datos del proyecto
-           // userId: userId, // Asociamos el userId con los proyectos creados
-            }));
-    
-            await axios.post("/api/proyect", { proyectosProcesados });
-        }
-        
         Swal.fire({
           icon: 'success',
-          title: 'Usuario creado con éxito',
-          html: `Haga click en continuar para 
+          title: 'Usuario y proyectos creado con éxito',
+          html: `Haga click en <strong> Ir a pagar <strong/> para 
                 <br/> procesar el pago`,
-                
+                showConfirmButton: true,
+                confirmButtonText: 'Ir a pagar',
+                confirmButtonColor: '#3085d6',
+
               }).then((result) => {
                 // Este bloque de código se ejecutará después de que el usuario cierre la alerta
                 if (result.isConfirmed) {
                     localStorage.clear()
                   // Redirigir a la página siguiente
                   // Por ejemplo, podrías usar router.push para navegar a la página siguiente
-                  router.push('/'); //asi mientras hacemos el proceso de pago de mercadolibre
+                 // router.push('/'); //asi mientras hacemos el proceso de pago de mercadolibre
+                 
+                 // Cuando el usuario confirma, mostramos el modal de pago
+                    setShowPaymentModal(true);
                 }
               });
-    } catch (error) {
-      console.error("Error al crear el perfil:", error);
-      alert("Hubo un error al crear el perfil");
-    }
-  };
+   } catch (error) {
+
+         if(error.response?.status === 409) {
+           const code = error.response.data.code
+           console.log("ERROR COMPLETO:", error.response);
+   
+           if (code === "EMAIL_DUPLICATE") {
+               Swal.fire({
+                   icon: "error",
+                   title: "Error",
+                   html: `Ya existe este correo electrónico registrado
+                    <br/> Puedes modificarlo.`,
+                 });
+           } else if (code === "USERNAME_DUPLICATE") {
+                 Swal.fire({
+                   icon: "error",
+                   title: "Error",
+                   html: `Ya existe un perfil con este nombre de usuario
+                    <br/> Puedes modificarlo.`,
+                 });
+             } else {
+                 Swal.fire({
+                   icon: "error",
+                   title: "Error",
+                   text: "Connflicto al crear el perfil.",
+                 });
+             
+               }  
+         } else{
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Error inesperado al crear el perfil.",
+              });           }
+        }
+     }
+   
 
     
 
@@ -323,8 +368,38 @@ const ProfileForm = () => {
                 Crear Perfil
             </button>
       </form>
+
+            {/* Modal de pago */}
+            {showPaymentModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                    <h3 className="custom-h3 text-xl font-semibold mb-4">Selecciona tu método de pago</h3>
+                        <div className="payment-options">
+                        <button className="payment-button mercado-button" onClick={() => console.log("MercadoLibre")}>
+                            <img src="/mercado-pago.svg" alt="MercadoLibre" className="icon-mercado" />
+                          
+                        </button>
+
+                        <button className="payment-button paypal-button" onClick={() => console.log("PayPal")} disabled>
+                            <img src="/paypal.svg" alt="PayPal" className="icon-paypal" />
+                         
+                        </button>
+
+                        <button className="payment-button stripe-button" onClick={() => console.log("Stripe")} disabled>
+                            <img src="/stripe.svg" alt="Stripe" className="icon-stripe" />
+                         
+                        </button>
+                        </div>
+                        <button 
+                            className="close-modal" 
+                            onClick={() => setShowPaymentModal(false)}>
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            )}
     </div>
-  );
+ );
 };
 
 export default ProfileForm;

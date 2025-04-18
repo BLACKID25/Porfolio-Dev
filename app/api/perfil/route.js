@@ -1,26 +1,25 @@
 import connectDB from "@/app/libs/mongodb";
 import { NextResponse } from "next/server";
 import { PerfilModel } from "@/app/models/Profile";
+import { generateUsername } from "@/app/Hooks/Username";
 
 export async function POST(req) { 
   await connectDB();
     try {
-        const profilebody = await req.json();
-        console.log("Esto viene del body",profilebody);
-
-        
-
-        // Generar un `username` basado en el nombre
-            const usernameBase = profilebody.name.toLowerCase().replace(/\s+/g, ""); // Ej: "Eric Chourio" -> "ericchourio"
-            const username = usernameBase;
+        const profilebody = await req.json(); // Extraer el cuerpo de la solicitud
+                
+        //Obtenemos el user name a partir del nombre
+     
+        const username = generateUsername(profilebody.name); 
         
         // Extraemos el email
-            const email = profilebody.email
-          
-
-         // ✅ Verificar si ya existe un perfil con ese email
+        const email = profilebody.email
+        
+        
+        // ✅ Verificar si ya existe un perfil con ese email
         const perfilExistenteEmail = await PerfilModel.findOne({ email });
         if (perfilExistenteEmail) {
+      
             return NextResponse.json({
                 message: "Ya existe un perfil registrado con este correo electrónico.",
                 code: "EMAIL_DUPLICATE"
@@ -54,13 +53,14 @@ export async function POST(req) {
         description: profilebody.description,
         skills: profilebody.skills.split(',').map(skill => skill.trim()),
         typePlan: profilebody.typePlan,
+        
         });
 
         return NextResponse.json({ data: NewPerfil }, { status: 201 });
 
     } catch (error) {
         console.error("Error al Procesar la Solicitud Crear Nuevo Perfil", error);
-        return NextResponse.json({ message: "Error interno del servidor" }, { status: 500 });
+        return NextResponse.json({ message: "Error interno del servidor" }, { status: 409 });
     }
 }
 

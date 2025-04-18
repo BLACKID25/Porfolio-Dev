@@ -17,6 +17,7 @@ const ProfileSchema = mongoose.Schema({
   curriCV:        { type: String }, // CARGAR EL CURRICULO
   typePlan:       { type: String }, // GUARDA EL TIPO DE PLAN SELECCIONADO
   skills:         [String], // Lista de habilidades
+  planActivated:  { type: Boolean, default: false }, // PLAN ACTIVADO O NO
  
 });
 export const PerfilModel = mongoose.models.Profile || mongoose.model('Profile', ProfileSchema);
