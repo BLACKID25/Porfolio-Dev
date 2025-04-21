@@ -1,16 +1,13 @@
 .formulario-perfil {
- 
     display: flex;
     justify-content: center;
     align-items: center;
-
     background-image: url('/Home-general.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     min-height: 98vh;
     font-family: 'Arial', sans-serif;
-   
 }
 
 form {
@@ -20,7 +17,6 @@ form {
     width: 100%;
     max-width: 1250px;
     padding: 4rem;
- 
 }
 
 h2 {
@@ -30,10 +26,16 @@ h2 {
     margin-bottom: 5rem;
 }
 
+h3 {
+    font-size: 2rem;
+    color: #ffffff;
+}
+
 label {
     font-size: 1.1rem;
     font-weight: 500;
     color: #ffffff;
+    margin-bottom: 1rem; /* Consolidado */
 }
 
 input, textarea {
@@ -65,7 +67,7 @@ button {
     font-size: 1rem;
     cursor: pointer;
     width: 100%;
-    margin-top: 1rem;
+    margin-top: 1rem; /* Ya está en el botón directamente */
     transition: background-color 0.3s ease;
 }
 
@@ -90,7 +92,6 @@ button:disabled {
 .form-group {
     display: grid;
     grid-template-columns: 2fr 2fr;
-
 }
 
 .form-group .field {
@@ -122,9 +123,9 @@ button:disabled {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 1rem;
-  }
+}
 
-  .home-buttonhome {
+.home-buttonhome {
     background-color: transparent;
     border: 2px solid #007bff;
     color: #007bff;
@@ -133,16 +134,16 @@ button:disabled {
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
-  }
+}
 
-  .skills-container {
+.skills-container {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-bottom: 0.5rem;
-  }
-  
-  .skill-chip {
+}
+
+.skill-chip {
     background-color: #4a90e2;
     color: white;
     padding: 6px 12px;
@@ -150,14 +151,143 @@ button:disabled {
     font-size: 0.9rem;
     display: flex;
     align-items: center;
-  }
-  
-  .remove-skill {
+}
+
+.remove-skill {
     background: transparent;
     border: none;
     color: white;
     margin-left: 8px;
     font-size: 1rem;
     cursor: pointer;
-  }
-  
+}
+
+.skills-list {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.skill-tag {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.skill-tag:hover {
+    background-color: #ff4d4d;
+    color: white;
+    border-color: #ff4d4d;
+}
+
+/* Estilo de checkbox y pregunta */
+.field input[type="checkbox"] {
+    margin-right: -93.5rem; /* Reducir el espacio entre el checkbox y la pregunta */
+}
+
+.field label {
+    display: flex;
+    align-items:flex-start;
+    gap: 39rem; /* Ajuste de espacio entre el checkbox y el texto, ajustable */
+    margin-bottom: 1.5%; /* Espacio debajo de la etiqueta */
+    margin-right: 1rem
+}
+
+.field label input[type="checkbox"] {
+    margin-top: 4; /* Alinear el checkbox con el texto */
+}
+
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.payment-button {
+    padding: 10px;
+    background-color: #3085d6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.payment-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.payment-button:hover:not(:disabled) {
+    background-color: #2c6ab0;
+}
+
+.close-modal {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.close-modal:hover {
+    background-color: #d32f2f;
+}
+
+.icon-mercado {
+    width: 190px;
+    height: auto;
+    margin-right: 8px;
+}
+
+.icon-paypal {
+    width: 190px;
+    height: auto;
+    margin-right: 8px;
+}
+
+.icon-stripe {
+    width: 130px;
+    height: auto;
+    margin-right: 8px;
+}
+.custom-h3 {
+    color: black;
+}
