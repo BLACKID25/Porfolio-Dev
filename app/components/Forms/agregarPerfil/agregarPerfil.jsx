@@ -7,6 +7,7 @@ import './apregarperfil.css'
 import { useSearchParams } from "next/navigation";
 import Swal from "sweetalert2";
 import { useRouter } from 'next/navigation';
+import { handleMercadopago } from "@/app/Hooks/HandleMercadopago";
 
 const ProfileForm = () => {
     const router = useRouter();
@@ -375,7 +376,8 @@ const ProfileForm = () => {
                     <div className="modal-content">
                     <h3 className="custom-h3 text-xl font-semibold mb-4">Selecciona tu método de pago</h3>
                         <div className="payment-options">
-                        <button className="payment-button mercado-button" onClick={() => console.log("MercadoLibre")}>
+                        <button className="payment-button mercado-button" 
+                            onClick={() => {handleMercadopago( formData.email , nameplan )}}>
                             <img src="/mercado-pago.svg" alt="MercadoLibre" className="icon-mercado" />
                           
                         </button>
@@ -385,8 +387,8 @@ const ProfileForm = () => {
                          
                         </button>
 
-                        <button className="payment-button stripe-button" onClick={() => console.log("Stripe")} disabled>
-                            <img src="/stripe.svg" alt="Stripe" className="icon-stripe" />
+                        <button className="payment-button stripe-button" onClick={() => console.log("PayU")}>
+                            <img src="/PayU.svg" alt="PayU" className="icon-PayU" />
                          
                         </button>
                         </div>
