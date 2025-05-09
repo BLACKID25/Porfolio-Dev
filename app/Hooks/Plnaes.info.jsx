@@ -1,6 +1,6 @@
 export const plans = [
     { 
-        name: "Básico", 
+        name: "Basico", 
         price: "$3/mes", 
         features: [
             "1 Portafolio", 

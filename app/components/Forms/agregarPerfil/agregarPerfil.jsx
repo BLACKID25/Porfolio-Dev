@@ -80,9 +80,9 @@ const ProfileForm = () => {
 
         Swal.fire({
           icon: 'success',
-          title: 'Usuario y proyectos creado con éxito',
+          title: 'Usuario y proyectos PRECREADOS con éxito',
           html: `Haga click en <strong> Ir a pagar <strong/> para 
-                <br/> procesar el pago`,
+                <br/> procesar el pago y activar su URL-PORTAFOLIO`,
                 showConfirmButton: true,
                 confirmButtonText: 'Ir a pagar',
                 confirmButtonColor: '#3085d6',
