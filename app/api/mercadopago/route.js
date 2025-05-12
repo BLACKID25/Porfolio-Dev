@@ -42,7 +42,7 @@ export async function POST(req) {
 
     const suscription = await new PreApproval(mp).create({
       body: {
-        back_url: `${BASE_URL}/mercadopago/response`, // URL de retorno
+        back_url: `${BASE_URL}/response`, // URL de retorno
       reason: selectedPlan.name, // Nombre del plan
      // external_reference: `subscription-${Date.now()}`, // Identificador único
       auto_recurring: {
