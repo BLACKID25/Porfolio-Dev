@@ -7,6 +7,8 @@ import './apregarperfil.css'
 import { useSearchParams } from "next/navigation";
 import Swal from "sweetalert2";
 import { useRouter } from 'next/navigation';
+import { handleMercadopago } from "@/app/Hooks/HandleMercadopago";
+import { handleWebpayPlus } from "@/app/Hooks/HandreWebPayPlus";
 
 const ProfileForm = () => {
     const router = useRouter();
@@ -79,9 +81,9 @@ const ProfileForm = () => {
 
         Swal.fire({
           icon: 'success',
-          title: 'Usuario y proyectos creado con éxito',
+          title: 'Usuario y proyectos PRECREADOS con éxito',
           html: `Haga click en <strong> Ir a pagar <strong/> para 
-                <br/> procesar el pago`,
+                <br/> procesar el pago y activar su URL-PORTAFOLIO`,
                 showConfirmButton: true,
                 confirmButtonText: 'Ir a pagar',
                 confirmButtonColor: '#3085d6',
@@ -93,7 +95,8 @@ const ProfileForm = () => {
                   // Redirigir a la página siguiente
                   // Por ejemplo, podrías usar router.push para navegar a la página siguiente
                  // router.push('/'); //asi mientras hacemos el proceso de pago de mercadolibre
-                 
+                 console.log("Valor de nameplan justo antes de mostrar el modal:", nameplan);
+                 console.log("Valor de formData.email justo antes de mostrar el modal:", formData.email);
                  // Cuando el usuario confirma, mostramos el modal de pago
                     setShowPaymentModal(true);
                 }
@@ -375,7 +378,8 @@ const ProfileForm = () => {
                     <div className="modal-content">
                     <h3 className="custom-h3 text-xl font-semibold mb-4">Selecciona tu método de pago</h3>
                         <div className="payment-options">
-                        <button className="payment-button mercado-button" onClick={() => console.log("MercadoLibre")}>
+                        <button className="payment-button mercado-button" 
+                            onClick={() => {handleMercadopago( formData.email , nameplan )}}>
                             <img src="/mercado-pago.svg" alt="MercadoLibre" className="icon-mercado" />
                           
                         </button>
@@ -385,8 +389,8 @@ const ProfileForm = () => {
                          
                         </button>
 
-                        <button className="payment-button stripe-button" onClick={() => console.log("Stripe")} disabled>
-                            <img src="/stripe.svg" alt="Stripe" className="icon-stripe" />
+                        <button className="payment-button stripe-button" onClick={() => {handleWebpayPlus( formData.email , nameplan )}}>
+                            <img src="/webpayplus.png" alt="PayU" className="icon-webpay-cl" />
                          
                         </button>
                         </div>

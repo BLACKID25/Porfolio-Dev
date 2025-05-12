@@ -272,21 +272,21 @@ button:disabled {
 }
 
 .icon-mercado {
-    width: 190px;
+    width: 210px;
     height: auto;
     margin-right: 8px;
 }
 
 .icon-paypal {
-    width: 190px;
+    width: 210px;
     height: auto;
     margin-right: 8px;
 }
 
-.icon-stripe {
-    width: 130px;
+.icon-webpay-cl {
+    width: 210px;
     height: auto;
-    margin-right: 8px;
+    margin-right: 6px;
 }
 .custom-h3 {
     color: black;

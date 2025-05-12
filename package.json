@@ -22,7 +22,8 @@
     "react-router-dom": "^7.3.0",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.5",
-    "sweetalert2": "^11.18.0"
+    "sweetalert2": "^11.18.0",
+    "transbank-sdk": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
