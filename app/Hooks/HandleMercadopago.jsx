@@ -4,6 +4,9 @@ import axios from "axios";
 export const handleMercadopago = async (email, plan) => {
     try {
 
+      const body = req.json(); // Asegúrate de que el cuerpo de la solicitud contenga el email y el plan
+      console.log("cuerpo que recibe el handleWebpayPlus", body)
+
         const response = await axios.post("/api/mercadopago", {email, plan})
         const {init_point} = response.data
 

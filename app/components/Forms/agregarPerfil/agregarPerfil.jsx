@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation";
 import Swal from "sweetalert2";
 import { useRouter } from 'next/navigation';
 import { handleMercadopago } from "@/app/Hooks/HandleMercadopago";
+import { handleWebpayPlus } from "@/app/Hooks/HandreWebPayPlus";
 
 const ProfileForm = () => {
     const router = useRouter();
@@ -94,7 +95,8 @@ const ProfileForm = () => {
                   // Redirigir a la página siguiente
                   // Por ejemplo, podrías usar router.push para navegar a la página siguiente
                  // router.push('/'); //asi mientras hacemos el proceso de pago de mercadolibre
-                 
+                 console.log("Valor de nameplan justo antes de mostrar el modal:", nameplan);
+                 console.log("Valor de formData.email justo antes de mostrar el modal:", formData.email);
                  // Cuando el usuario confirma, mostramos el modal de pago
                     setShowPaymentModal(true);
                 }
@@ -387,8 +389,8 @@ const ProfileForm = () => {
                          
                         </button>
 
-                        <button className="payment-button stripe-button" onClick={() => console.log("PayU")}>
-                            <img src="/PayU.svg" alt="PayU" className="icon-PayU" />
+                        <button className="payment-button stripe-button" onClick={() => {handleWebpayPlus( formData.email , nameplan )}}>
+                            <img src="/webpayplus.png" alt="PayU" className="icon-webpay-cl" />
                          
                         </button>
                         </div>
