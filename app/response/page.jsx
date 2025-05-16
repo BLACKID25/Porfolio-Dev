@@ -39,6 +39,7 @@ const PaymentResponsePage = () => {
         }
 
         setTransactionResult(result);
+        console.log("metodo de pago seleccionado",result);
         setLoading(false);
       } catch (err) {
         setError(err.message || 'Error desconocido al procesar la respuesta.');
@@ -52,8 +53,10 @@ const PaymentResponsePage = () => {
   // Funciones para obtener resultados desde tu backend (sin cambios)
   const fetchMercadoPagoResponse = async (preapprovalId) => { 
      try {
-      const response = await axios.get(`/api/mercadopago/response?preapproval_id=${preapprovalId}`);
-      return response.data;
+      const response = await axios.get(`/api/confirm-subscription?preapproval_id=${preapprovalId}`);
+      const data = response.data;
+      data.paymentMethod = 'Mercado Pago';
+      return data;
     } catch (err) {
       console.error('Error al obtener respuesta de Mercado Pago:', err);
       setError('Error al verificar el resultado del pago de Mercado Pago.');
@@ -70,7 +73,9 @@ const PaymentResponsePage = () => {
     console.log("token_ws", token_ws)
     try {
       const response = await axios.get(`/api/webpayplus/result?token_ws=${token_ws}`);
-      return response.data;
+      const data = response.data;
+      data.paymentMethod = 'Transbank';
+      return data;
     } catch (err) {
       console.error('Error al obtener el resultado de Transbank:', err);
       setError('Error al verificar el resultado del pago de Transbank.');
@@ -86,7 +91,9 @@ const PaymentResponsePage = () => {
   const fetchPaypalResponse = async (paymentId) => {
     try {
       const response = await axios.get(`/api/paypal/response?paymentId=${paymentId}`);
-      return response.data;
+      const data = response.data;
+      data.paymentMethod = 'PayPal';
+      return data;
     } catch (err) {
       console.error('Error al obtener respuesta de PayPal:', err);
       setError('Error al verificar el resultado del pago de PayPal.');
@@ -118,9 +125,9 @@ const PaymentResponsePage = () => {
     mainMessage = 'Transacción Rechazada';
     textColorClass = 'text-red-500';
   }
-
   // Determinar el ícono del método de pago
   let paymentMethodIcon = null;
+  
   switch (transactionResult?.paymentMethod) {
     case 'Mercado Pago':
       paymentMethodIcon = <CreditCard className="w-6 h-6 mr-2 text-yellow-400" />;
@@ -162,63 +169,60 @@ const PaymentResponsePage = () => {
     </div>
 
     {transactionResult && (
-      <div className="detailsContainer">
+    <div className="detailsContainer">
         <h3 className="detailsTitle">Detalles de la Transacción</h3>
-        {transactionResult.buy_order && <p className="detailItem">Número de Orden: {transactionResult.buy_order}</p>}
-        {transactionResult.authorization_code && <p className="detailItem">Código de Autorización: {transactionResult.authorization_code}</p>}
-        {transactionResult.amount && <p className="detailItem">Monto: ${transactionResult.amount}</p>}
-        {transactionResult.planName && <p className="detailItem">Plan: {transactionResult.planName}</p>}
-        {transactionResult.card_detail?.card_number && (
-            <p className="detailItem">Tarjeta terminada en: ****-****-****-{transactionResult.card_detail.card_number}</p>
-        )}
-       {transactionResult.transaction_date && (
-             <p className="detailItem">Fecha de Transacción: {new Date(transactionResult.transaction_date).toLocaleDateString()}</p>
-        )}
-        {transactionResult.expiryDate && (
-          <p className="detailItem">
-            Fecha de Caducidad del Plan: {new Date(transactionResult.expiryDate).toLocaleString()}
-          </p>
-        )}
-        {transactionResult.installments_number > 0 && transactionResult.installments_amount > 0 ? (
-      <>
-        <p className="detailItem">Número de Cuotas: {transactionResult.installments_number}</p>
-        <p className="detailItem">Monto por Cuota: ${transactionResult.installments_amount}</p>
-            </>
-        ) : (
-                transactionResult.installments_number === 0 && <p className="detailItem">Pago en una cuota $0</p>
-            )
-        }
-
-
-
-
 
         {transactionResult.paymentMethod === 'Mercado Pago' && (
-          <>
+        <>
             <p className="detailItem">Preapproval ID: {transactionResult.preapprovalId}</p>
             <p className="detailItem">Email del Pagador: {transactionResult.payer_email}</p>
-          </>
+        </>
         )}
+
         {transactionResult.paymentMethod === 'Transbank' && (
-          <>
-            <p className="detailItem">Código de Autorización: {transactionResult.authorization_code}</p>
+        <>
+            {transactionResult.buy_order && <p className="detailItem">Número de Orden: {transactionResult.buy_order}</p>}
+            {transactionResult.authorization_code && <p className="detailItem">Código de Autorización: {transactionResult.authorization_code}</p>}
+            {transactionResult.amount && <p className="detailItem">Monto: ${transactionResult.amount}</p>}
+            {transactionResult.planName && <p className="detailItem">Plan: {transactionResult.planName}</p>}
+            {transactionResult.card_detail?.card_number && (
+            <p className="detailItem">Tarjeta terminada en: ****-****-****-{transactionResult.card_detail.card_number}</p>
+            )}
+            {transactionResult.transaction_date && (
+            <p className="detailItem">Fecha de Transacción: {new Date(transactionResult.transaction_date).toLocaleDateString()}</p>
+            )}
+            {transactionResult.expiryDate && (
+            <p className="detailItem">
+                Fecha de Caducidad del Plan: {new Date(transactionResult.expiryDate).toLocaleString()}
+            </p>
+            )}
+            {transactionResult.installments_number > 0 && transactionResult.installments_amount > 0 ? (
+            <>
+                <p className="detailItem">Número de Cuotas: {transactionResult.installments_number}</p>
+                <p className="detailItem">Monto por Cuota: ${transactionResult.installments_amount}</p>
+            </>
+            ) : (
+            transactionResult.installments_number === 0 && <p className="detailItem">Pago en una cuota $0</p>
+            )}
             {transactionResult.installments && (
-              <div>
+            <div>
                 <p className="detailItem">Cuotas: {transactionResult.installments.length}</p>
                 {transactionResult.installments.map((installment, index) => (
-                  <p key={index} className="detailItem">
+                <p key={index} className="detailItem">
                     Cuota {index + 1}: ${installment.amount}
-                  </p>
+                </p>
                 ))}
-              </div>
+            </div>
             )}
-          </>
+        </>
         )}
+
         {transactionResult.paymentMethod === 'PayPal' && (
-          <p className="detailItem">Email del Pagador: {transactionResult.payer_email}</p>
+        <p className="detailItem">Email del Pagador: {transactionResult.payer_email}</p>
         )}
+
         {transactionResult.message && <p className="errorMessage">{transactionResult.message}</p>}
-      </div>
+    </div>
     )}
 
     <div className="buttonContainerpayment">
@@ -232,5 +236,5 @@ const PaymentResponsePage = () => {
 };
 
 
-
+// tengo que redirigir a los datos del cliente con el username guardado en el localstorage
 export default PaymentResponsePage;
