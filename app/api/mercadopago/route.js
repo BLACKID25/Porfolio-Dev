@@ -1,6 +1,5 @@
 import { MercadoPagoConfig, PreApproval } from 'mercadopago';
 import { plans } from '@/app/Hooks/Plnaes.info';
-
 import { NextResponse } from "next/server";
 
 console.log("🔐 Token de acceso de MercadoPago:", process.env.MP_ACCESS_TOKEN);
@@ -38,11 +37,9 @@ export async function POST(req) {
     const nextYear = new Date(now);
     nextYear.setFullYear(now.getFullYear() + 1); // Suscripción por un año
 
-
-
     const suscription = await new PreApproval(mp).create({
       body: {
-        back_url: `${BASE_URL}/mercadopago/response`, // URL de retorno
+        back_url: `${BASE_URL}/response`, // URL de retorno
       reason: selectedPlan.name, // Nombre del plan
      // external_reference: `subscription-${Date.now()}`, // Identificador único
       auto_recurring: {
@@ -53,22 +50,31 @@ export async function POST(req) {
         currency_id: "CLP", // Moneda ajustada a Chile
       },
       payer_email: email, // Email del usuario
-      status: "pending", // Estado inicial
+     // status: "pending", // Estado inicial
       },
     });
 
-    //return suscription.init_point;
-
-    // Ver respuesta de MercadoPago
-    console.log("Respuesta de MercadoPago:", suscription);
-
-    // Retornar la URL para que el usuario proceda con el pago
-    return NextResponse.json({ init_point: suscription.init_point }, { status: 200 });
-
+    // 7. Verificar la respuesta de Mercado Pago
+    if (suscription && suscription.init_point) {
+      console.log("Respuesta de MercadoPago:", suscription);
+      // 8. Retornar la URL de inicio de sesión de Mercado Pago
+      return NextResponse.json({ init_point: suscription.init_point }, { status: 200 });
+    } else {
+      // 9. Manejar el caso en que no se recibe init_point
+      console.error("Error: No se recibió init_point de Mercado Pago");
+      return NextResponse.json(
+        { error: "Error al iniciar el pago: No se recibió URL de Mercado Pago" },
+        { status: 500 }
+      );
+    }
   } catch (error) {
-    // Manejar errores y retornar un mensaje
+    // 10. Manejar errores
     console.error("Error al crear suscripción:", error.response || error);
-    return NextResponse.json({ error: 'Error al procesar el pago' }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Error al procesar el pago', details: error.message || "Error desconocido" },
+      { status: 500 }
+    );
   }
 }
+
 

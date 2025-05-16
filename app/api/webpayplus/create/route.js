@@ -24,6 +24,7 @@ export async function POST(req) {
     // Obtener el precio del plan, eliminando los caracteres "$" y "/mes"
     const transactionAmount = parseFloat(
       selectedPlan.price.replace("$", "").replace("/mes", "")
+
     );
 
 
@@ -55,7 +56,7 @@ export async function POST(req) {
         const buyOrder = `Order-${Date.now()}`.trim();
         const sessionId = `Session-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`.trim();
         const origin = req.headers.get('origin') || 'http://localhost:3000'; // Establece un valor predeterminado
-        const returnUrl = `${origin}/webpayplus/resultado`.trim();
+        const returnUrl = `${origin}/response`.trim();
         const finalUrl = `${origin}/api/webpayplus/final`.trim(); // Opcional en la versión 6.x
         
        // console.log("origin", origin);

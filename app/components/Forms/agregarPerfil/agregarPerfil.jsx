@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import { useRouter } from 'next/navigation';
 import { handleMercadopago } from "@/app/Hooks/HandleMercadopago";
 import { handleWebpayPlus } from "@/app/Hooks/HandreWebPayPlus";
+//import { generateUsername } from "@/app/Hooks/Username";
 
 const ProfileForm = () => {
     const router = useRouter();
@@ -16,7 +17,7 @@ const ProfileForm = () => {
     //EXTRAEMOS DE AQUI EL NOMBRE DEL PLAN
     const searchParams = useSearchParams()
     const nameplan = searchParams.get('plan')
-    console.log("Nombre del plan seleccionado", nameplan)
+    //console.log("Nombre del plan seleccionado", nameplan)
 
 
   const [formData, setFormData] = useState({
@@ -59,8 +60,10 @@ const ProfileForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post("/api/perfil", formData);
-  
-       const result = response.data
+        
+        const result = response.data 
+        localStorage.setItem("username", result.data.username);
+       console.log("Perfil creado: Respuesta del back", result);
 
         //1. si el perfil se guardo correctamente 
             if(response.status === 201){
@@ -91,7 +94,7 @@ const ProfileForm = () => {
               }).then((result) => {
                 // Este bloque de código se ejecutará después de que el usuario cierre la alerta
                 if (result.isConfirmed) {
-                    localStorage.clear()
+                  //  localStorage.clear()
                   // Redirigir a la página siguiente
                   // Por ejemplo, podrías usar router.push para navegar a la página siguiente
                  // router.push('/'); //asi mientras hacemos el proceso de pago de mercadolibre

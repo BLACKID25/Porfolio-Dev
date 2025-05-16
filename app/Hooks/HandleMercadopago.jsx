@@ -2,10 +2,13 @@
 import axios from "axios";
 
 export const handleMercadopago = async (email, plan) => {
-    try {
 
-      const body = req.json(); // Asegúrate de que el cuerpo de la solicitud contenga el email y el plan
-      console.log("cuerpo que recibe el handleWebpayPlus", body)
+    console.log(email, plan)
+    if (!email || !plan) {
+        console.error("Email o plan no proporcionados");
+        throw new Error("Email o plan no proporcionados");
+    }
+    try {
 
         const response = await axios.post("/api/mercadopago", {email, plan})
         const {init_point} = response.data
@@ -18,7 +21,7 @@ export const handleMercadopago = async (email, plan) => {
         
     } catch (error) {
         console.error("Error en el manejo de Mercadopago:", error);
-        throw new Error("Error en el manejo de Mercadopago");
+      //  throw new Error("Error en el manejo de Mercadopago");
     }
 
 }
