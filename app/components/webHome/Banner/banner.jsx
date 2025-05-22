@@ -4,7 +4,9 @@ import React from "react";
 import { Container } from "semantic-ui-react";
 import "./banner.css";
 
+
 export function Banner() {
+  // limpio el localStorage
     return (
         <div className="banner">
           <Container>

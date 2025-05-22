@@ -23,8 +23,8 @@ const Portafolio = () => {
         const projectsResponse = await axios.get(`/api/proyect/${username}`);
         setProjects(projectsResponse.data.data); // Cambié 'setUser' por 'setProjects' para no sobrescribir el estado de usuario
   
-        console.log("Usuario:", userResponse.data.data);
-        console.log("Proyectos:", projectsResponse.data.data);
+       // console.log("Usuario:", userResponse.data.data);
+       // console.log("Proyectos:", projectsResponse.data.data);
       } catch (error) {
         console.error("Error al obtener datos del usuario o proyectos", error);
       } finally {

@@ -8,7 +8,7 @@ export async function GET(request, { params }){
     // Se espera que los paramtros esten resueltos
     
     const resParams = await params;
-    console.log("llega por body", resParams)
+   // console.log("llega por body", resParams)
 
     // verificamos si existen los parametros
 
