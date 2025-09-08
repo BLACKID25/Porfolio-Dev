@@ -1,63 +1,140 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import "./Nclientes.css"; // Importamos los estilos CSS
+import React, { useState, useEffect, useRef } from 'react';
+import { Box, Heading, Text, Grid, GridItem } from '@chakra-ui/react';
+
+// Array de datos para las estadísticas, lo hace más escalable
+const estadisticas = [
+  { valor: '+15', label: 'Años de Experiencia' },
+  { valor: '+7', label: 'Especialistas en RRHH' },
+  { valor: '3000', label: 'Clientes Felices', animar: true },
+  { valor: '100%', label: 'Satisfacción de Clientes' },
+];
 
 export default function Nclientes() {
-   // Estado para el contador de clientes felices
-   const [clientesFelices, setClientesFelices] = useState(1);
-   const maxClientes = 3000; // Límite inicial
- 
-   useEffect(() => {
-     let interval;
- 
-     if (clientesFelices < maxClientes) {
-       // Primera fase: aumento rápido hasta 3000
-       const velocidad = 3; // Velocidad del contador rápido
-       const incremento = Math.ceil(3000 / 100); // Ajusta el incremento
- 
-       interval = setInterval(() => {
-         setClientesFelices((prev) => {
-           if (prev >= maxClientes) {
-             clearInterval(interval);
-             return maxClientes;
-           }
-           return prev + incremento;
-         });
-       }, velocidad);
-     } else {
-       // Segunda fase: incremento lento de 1 en 1 cada 30 segundos
-       interval = setInterval(() => {
-         setClientesFelices((prev) => prev + 1);
-       }, 3000);
-     }
- 
-     return () => clearInterval(interval);
-   }, [clientesFelices]); // Se ejecuta cada vez que `clientesFelices` cambia
+  const [clientesFelices, setClientesFelices] = useState(0);
+  const [isCounting, setIsCounting] = useState(false);
+  const ref = useRef();
+  const hasCountedRef = useRef(false);
+
+  useEffect(() => {
+    let initialInterval;
+    let continuousInterval;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasCountedRef.current) {
+          hasCountedRef.current = true;
+          let start = 0;
+          const end = 3000;
+          const duration = 2000;
+          const increment = end / (duration / 10);
+
+          initialInterval = setInterval(() => {
+            start += increment;
+            if (start >= end) {
+              setClientesFelices(end);
+              clearInterval(initialInterval);
+              // Start the continuous increment after the initial count is done
+              continuousInterval = setInterval(() => {
+                setIsCounting(false); // Trigger fade-out
+                setTimeout(() => {
+                  setClientesFelices((prev) => prev + 1);
+                  setIsCounting(true); // Trigger fade-in
+                }, 500);
+              }, 3000); // Increments every 3 seconds
+            } else {
+              setClientesFelices(Math.ceil(start));
+            }
+          }, 10);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+      clearInterval(initialInterval);
+      clearInterval(continuousInterval);
+    };
+  }, []);
 
   return (
-    <section className="bannerclientes">
-      <div className="stats">
-        <div className="stat">
-          <h2>+15</h2>
-          <p>Años de Experiencia</p>
-        </div>
-        <div className="stat">
-          <h2>+7</h2>
-          <p>Profesionales Especializados en RRHH</p>
-        </div>
-        <div className="stat">
-          <h2>+{clientesFelices.toLocaleString()}</h2> {/* Se muestra el contador */}
-          <p>Clientes Felices</p>
-        </div>
-        <div className="stat">
-          <h2>100%</h2>
-          <p>Satisfacción de Clientes</p>
-        </div>
-      </div>
-      {/* <a href="/Planes" className="btn">ACCEDE A TU PLAN AQU</a> */}
-    </section>
+    <Box
+      as="section"
+      py={{ base: 12, md: 10 }}
+      bg="white"
+      textAlign="center"
+    >
+      {/* Estilos para la animación de cambio de número */}
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeOut {
+          from { opacity: 1; transform: translateY(0); }
+          to { opacity: 0; transform: translateY(-10px); }
+        }
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-5px); }
+          50% { transform: translateX(5px); }
+          75% { transform: translateX(-5px); }
+        }
+        .fade-in {
+          animation: fadeIn 0.5s ease-in-out;
+        }
+        .fade-out {
+          animation: fadeOut 0.5s ease-in-out;
+        }
+        .shake-animation {
+          animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+      `}</style>
+      <Heading as="h2" size="xl" mb={{ base: 8, md: 12 }} color="gray.700">
+        Logros Alcanzados hasta la fecha
+      </Heading>
+      <Grid
+        templateColumns={{
+          base: 'repeat(1, 1fr)',
+          md: 'repeat(2, 1fr)',
+          lg: 'repeat(4, 1fr)',
+        }}
+        gap={{ base: 6, md: 8, lg: 10 }}
+        maxW="container.xl"
+        mx="auto"
+        px={{ base: 4, md: 8 }}
+      >
+        {estadisticas.map((stat, index) => (
+          <GridItem key={index}>
+            <Box
+              bg="white"
+              p={{ base: 6, md: 8 }}
+              borderRadius="lg"
+              boxShadow="xl"
+              transition="transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out"
+              _hover={{ transform: 'scale(1.05)', boxShadow: '2xl' }}
+              ref={stat.animar ? ref : null}
+            >
+              <Heading as="h2" size="2xl" color="orange.600" mb={2}
+                className={stat.animar ? `${isCounting ? 'fade-in' : 'fade-out'}` : ''}
+              >
+                {stat.animar ? `+${clientesFelices.toLocaleString()}` : stat.valor}
+              </Heading>
+              <Text fontSize="lg" color="gray.700">
+                {stat.label}
+              </Text>
+            </Box>
+          </GridItem>
+        ))}
+      </Grid>
+    </Box>
   );
-};
-
-
+}

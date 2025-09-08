@@ -1,14 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true,
-    webpack(config) {
-      config.module.rules.push({
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
-      });
-      return config;
-    },
-  };
-  
-  export default nextConfig;
-  
+  // Configuración de Webpack para deshabilitar la serialización
+  webpack: (config) => {
+    config.cache = {
+      ...config.cache,
+      type: 'filesystem',
+      maxMemoryGenerations: 0,
+      cacheDirectory: undefined,
+    };
+    return config;
+  },
+};
+
+export default nextConfig;

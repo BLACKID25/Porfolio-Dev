@@ -1,7 +1,7 @@
 // app/api/webpayplus/create/route.js
 import { NextResponse } from 'next/server';
 import { WebpayPlus, Options, Environment } from 'transbank-sdk';
-import { plans } from '@/app/Hooks/Plnaes.info';
+import { plans } from '@/app/hooks/Plnaes.info';
 
 // Accede a las variables de entorno
 const commerceCode = process.env.WEBPAY_PLUS_COMMERCE_CODE;

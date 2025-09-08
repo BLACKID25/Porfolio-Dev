@@ -1,7 +1,7 @@
 import connectDB from "@/app/libs/mongodb";
 import { NextResponse } from "next/server";
 import { PerfilModel } from "@/app/models/Profile";
-import { generateUsername } from "@/app/Hooks/Username";
+import { generateUsername } from "@/app/hooks/Username";
 
 export async function POST(req) { 
   await connectDB();

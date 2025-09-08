@@ -1,10 +1,15 @@
 // app/Hooks/HandleMercadopago.jsx
 
 import React, { useState, useEffect } from 'react'; // Importa useEffect
+import { Button, Image } from "@chakra-ui/react";
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const HandleMercadopago = ({ initialEmail, plan, username }) => {
+
+  console.log("lo que llega del boton del body",initialEmail, plan, username)
+
+  // Estado para manejar el email, inicializado con la prop initialEmail
   const [paymentEmail, setPaymentEmail] = useState(initialEmail);
   // Estado para controlar si el pago ya se intentó para evitar bucles
   const [paymentAttempted, setPaymentAttempted] = useState(false);
@@ -129,12 +134,24 @@ const HandleMercadopago = ({ initialEmail, plan, username }) => {
   };
 
   return (
-    <button
-      className="payment-button mercado-button"
+    <Button
       onClick={handleMercadopagoClick}
+      leftIcon={
+        <Image
+          src="/mercado-pago.svg" // 👈 logo dentro de /public
+          alt="MercadoPago"
+          boxSize="100px" // Ajusta tamaño
+          objectFit="contain"
+        />
+      }
+      colorScheme="blue"
+      variant="outline"
+      w="full"
+      size="lg"
+      _hover={{ bg: "blue.50" }}
     >
-      <img src="/mercado-pago.svg" alt="MercadoLibre" className="icon-mercado" />
-    </button>
+      
+    </Button>
   );
 };
 

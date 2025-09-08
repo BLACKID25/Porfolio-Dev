@@ -1,36 +1,71 @@
+"use client";
+
 import React from "react";
-import Image from "next/image";
+
 import { map } from "lodash";
-import { reviewsData } from "@/app/Hooks/Reseña.info";
-import "./reseñas.css";
+import { reviewsData } from "../../../hooks/Reseña.info";
+
+import {
+  Box,
+  Heading,
+  Text,
+  SimpleGrid,
+  Flex,
+  Avatar,
+} from "@chakra-ui/react";
+// Ya no necesitas este archivo CSS
+// import "./reseñas.css";
 
 export function Reviews() {
   return (
-    <div className="reviews">
-      <h2>Reseña de algunos profesionales en la plataforma</h2>
+    <Box py={16} px={4} textAlign="center">
+      <Heading as="h2" size="xl" mb={10}>
+        Reseña de algunos profesionales en la plataforma
+      </Heading>
 
-      <div className="reviews__list">
+      <SimpleGrid
+        columns={{ base: 1, md: 2 }}
+        spacing={8}
+        maxW="container.xl"
+        mx="auto"
+      >
         {map(reviewsData, (review, index) => (
-          <div key={index}>
-            <p>{review.comment}</p>
-            <div className="reviews__list-user">
-              {/* Se agregan width y height */}
-              
-              <Image 
-                src={review.avatar} 
-                alt={`Avatar de ${review.userName}`} 
-                width={50} 
-                height={50} 
-                className="reviews__avatar"
+          <Box
+            key={index}
+            p={6}
+            bg="white"
+            borderRadius="lg"
+            boxShadow="md"
+            transition="all 0.3s ease-in-out"
+            _hover={{ transform: "translateY(-5px)", boxShadow: "xl" }}
+          >
+            <Text
+              as="blockquote"
+              fontStyle="italic"
+              color="gray.600"
+              mb={4}
+            >
+              "{review.comment}"
+            </Text>
+
+            <Flex align="center" justify="center" mt={4}>
+              {/* Usa el componente Avatar para el círculo y el borde */}
+              <Avatar
+                src={review.avatar}
+                name={review.userName}
+                size="md"
+                mr={4}
               />
-              <div>
-                <span>{review.userName}</span> <br />
-                <span>{review.userType}</span>
-              </div>
-            </div>
-          </div>
+              <Box textAlign="left">
+                <Text fontWeight="bold">{review.userName}</Text>
+                <Text fontSize="sm" color="gray.500">
+                  {review.userType}
+                </Text>
+              </Box>
+            </Flex>
+          </Box>
         ))}
-      </div>
-    </div>
+      </SimpleGrid>
+    </Box>
   );
 }
