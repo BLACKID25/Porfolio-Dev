@@ -1,4 +1,4 @@
-import NavBar from "./components/webHome/NavBar/NavBar";
+//import NavBar from "./components/webHome/NavBar/NavBar";
 import { Banner } from "./components/webHome/Banner/banner";
 import { Suscripcion } from "./components/webHome/Sucripcion/suscripcion";
 import { Info } from "./components/webHome/Info/info";
@@ -24,16 +24,17 @@ const Home = () => {
         <Suscripcion />
       </Box>
 
-      <Box as="section" py={16}>
-        <Nclientes />
-      </Box>
-
       <Box 
       as="section"  py={6}>
         <Info />
       </Box>
 
-      <Box as="section" bg="gray.100" py={16}>
+      <Box as="section" py={16}>
+        <Nclientes />
+      </Box>
+
+
+      <Box as="section" bg="white" py={4}>
         <Reviews />
       </Box>
       

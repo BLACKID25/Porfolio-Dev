@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import Swal from "sweetalert2";
-// Importamos los componentes de Chakra UI
 import {
   Box,
   Button,
@@ -18,28 +17,23 @@ import {
   HStack,
   Heading,
   Text,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalCloseButton,
-  useDisclosure, // Hook para manejar el estado del modal
-  Center,
   SimpleGrid,
+  useDisclosure,
+  Image as ChakraImage,
+  IconButton,
+  Spinner,
 } from "@chakra-ui/react";
-// Aquí asumimos que los hooks de pago están disponibles
-import HandleMercadopago from "../../../hooks/HandleMercadopago";
-import { handleWebpayPlus } from "../../../hooks/HandreWebPayPlus";
+import { CloseIcon } from "@chakra-ui/icons";
+import imageCompression from "browser-image-compression";
+import { FaFilePdf } from "react-icons/fa";
+import { usePaymentModal } from "@/app/hooks/usePaymentModal";
 
 const ProfileForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const nameplan = searchParams.get("plan");
 
-  // Hook de Chakra para manejar el estado del modal, más limpio que useState
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { PaymentModal, onOpen } = usePaymentModal();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -54,128 +48,211 @@ const ProfileForm = () => {
     Profesion: "",
     ageExpe: "",
     description: "",
-    skills: "", // En Chakra, un solo string para el input de habilidades es más sencillo
+    skills: "",
     typePlan: nameplan,
   });
 
+  const [photoFile, setPhotoFile] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+  const [cvFile, setCvFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
-  const [projects, setProjects] = useState([
-    {
-      nameproyect: "",
-      tecnologiproyect: "",
-      photoproyect: "",
-      descproyect: "",
-    },
-  ]);
-
+  const [projects, setProjects] = useState([{ nameproyect: "", tecnologiproyect: "", photoproyect: "", descproyect: "" }]);
   const [usernameForPayment, setUsernameForPayment] = useState(null);
+
+  const photoInputRef = useRef(null);
+  const cvInputRef = useRef(null);
+
+  // abrir modal de pago si se setea username
+  useEffect(() => {
+    if (usernameForPayment) onOpen();
+  }, [usernameForPayment, onOpen]);
+
+  useEffect(() => {
+    return () => {
+      if (photoPreview) URL.revokeObjectURL(photoPreview);
+    };
+  }, [photoPreview]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Manejador para el Cloudinary (simulado aquí)
-  const handleFileChange = (e) => {
-    // Aquí puedes manejar el archivo seleccionado, por ejemplo, guardándolo en el estado
-    const file = e.target.files[0];
-    if (file) {
-      // Por ahora, solo guardamos el nombre del archivo.
-      // Aquí es donde en el futuro implementarás la lógica para subir a Cloudinary.
-      console.log('Archivo seleccionado:', file);
-      // setFormData({ ...formData, curriCV: file.name });
+  const onCvSelect = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setCvFile(file);
+  };
+
+  const onPhotoSelect = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const compressedFile = await imageCompression(file, { maxSizeMB: 1, maxWidthOrHeight: 800, useWebWorker: true });
+      const previewUrl = URL.createObjectURL(compressedFile);
+      if (photoPreview) URL.revokeObjectURL(photoPreview);
+      setPhotoFile(compressedFile);
+      setPhotoPreview(previewUrl);
+    } catch {
+      setPhotoFile(file);
+      setPhotoPreview(URL.createObjectURL(file));
     }
   };
 
+  const removePhoto = () => {
+    if (photoPreview) URL.revokeObjectURL(photoPreview);
+    setPhotoFile(null);
+    setPhotoPreview(null);
+  };
+
+  const removeCv = () => setCvFile(null);
+
   const handleProjectChange = (e, index) => {
     const { name, value } = e.target;
-    const updatedProjects = [...projects];
-    updatedProjects[index][name] = value;
-    setProjects(updatedProjects);
+    const updated = [...projects];
+    updated[index][name] = value;
+    setProjects(updated);
   };
 
-  // Nuevo manejador para eliminar un proyecto
   const handleRemoveProject = (index) => {
-    const updatedProjects = [...projects];
-    updatedProjects.splice(index, 1);
-    setProjects(updatedProjects);
+    const updated = [...projects];
+    updated.splice(index, 1);
+    setProjects(updated);
   };
-
-  // Manejador del envío del formulario
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUploading(true);
+
     try {
-      const response = await axios.post("/api/perfil", {
-        ...formData,
-       
-      });
+      const payload = { ...formData };
 
-      const result = response.data;
-      const username = result.data.username;
-      localStorage.setItem("username", username);
-      setUsernameForPayment(username);
+      // subir foto
+      if (photoFile) {
+        const fd = new FormData();
+        fd.append("file", photoFile, photoFile.name || "photo.jpg");
+        fd.append("fileType", "PHOTO");
+        const resPhoto = await axios.post("/api/upload", fd, { headers: { "Content-Type": "multipart/form-data" } });
+        payload.photo = resPhoto.data.url || "";
+      }
 
-      if (response.status === 201) {
-        if (showProjects && projects.length > 0) {
-          const proyectosProcesados = projects.map((p) => ({
-            ...p,
-            tecnologiproyect: p.tecnologiproyect.split(",").map((t) => t.trim()),
-          }));
+      // subir CV
+      
+        if (cvFile) {
+          // Validar tipo MIME
+          if (cvFile.type !== "application/pdf") {
+            Swal.fire({
+              icon: "warning",
+              title: "Archivo inválido",
+              text: "Solo se permiten archivos PDF para el CV.",
+            });
+            setUploading(false);
+            return;
+          }
 
-          await axios.post("/api/proyect", {
-            name: formData.name,
-            proyectos: proyectosProcesados,
-          });
+          // Validar extensión (opcional)
+          if (!cvFile.name.toLowerCase().endsWith(".pdf")) {
+            Swal.fire({
+              icon: "warning",
+              title: "Archivo inválido",
+              text: "El archivo debe tener extensión .pdf.",
+            });
+            setUploading(false);
+            return;
+          }
+          const fd2 = new FormData();
+          fd2.append("file", cvFile, cvFile.name || "cv.pdf");
+          fd2.append("fileType", "CURRICV");
+
+          try {
+            const resCv = await axios.post("/api/upload", fd2, {
+              headers: { "Content-Type": "multipart/form-data" },
+            });
+            payload.curriCV = resCv.data.url || "";
+          } catch (error) {
+            console.error("Error al subir CV:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Error al subir CV",
+              text: "Hubo un problema subiendo el CV. Intenta nuevamente.",
+            });
+            setUploading(false);
+            return;
+          }
         }
+
+      // procesar proyectos
+      if (showProjects && projects.length > 0) {
+        payload.proyectos = projects.map((p) => ({
+          ...p,
+          tecnologiproyect: typeof p.tecnologiproyect === "string" ? p.tecnologiproyect.split(",").map((t) => t.trim()) : p.tecnologiproyect,
+        }));
+      }
+
+      // crear perfil
+      const response = await axios.post("/api/perfil", payload);
+      const result = response.data;
+      const username = result.data?.username;
+      if (username) localStorage.setItem("username", username);
+
+      // limpieza local
+      if (photoPreview) URL.revokeObjectURL(photoPreview);
+      setPhotoFile(null);
+      setPhotoPreview(null);
+      setCvFile(null);
+
+      // crear proyectos si existen
+      if (response.status === 201 && showProjects && payload.proyectos) {
+        await axios.post("/api/proyect", { name: payload.name, proyectos: payload.proyectos });
       }
 
       Swal.fire({
         icon: "success",
-        title: "Usuario y proyectos PRECREADOS con éxito",
-        html: `Haga click en <strong> Ir a pagar <strong/> para <br/> procesar el pago y activar su URL-PORTAFOLIO`,
-        showConfirmButton: true,
+        title: "Perfil creado",
+        html: `Usuario precreado correctamente.`,
         confirmButtonText: "Ir a pagar",
-        confirmButtonColor: "#3085d6",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          onOpen(); // Abre el modal de Chakra
+      }).then((r) => {
+        if (r.isConfirmed && username) {
+          setUsernameForPayment(username);
         }
       });
-    } catch (error) {
-      if (error.response?.status === 409) {
-        const code = error.response.data.code;
-        if (code === "EMAIL_DUPLICATE") {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            html: `Ya existe este correo electrónico registrado<br/> Puedes modificarlo.`,
-          });
-        } else if (code === "USERNAME_DUPLICATE") {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            html: `Ya existe un perfil con este nombre de usuario<br/> Puedes modificarlo.`,
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Conflicto al crear el perfil.",
-          });
-        }
-      } else {
+
+    } catch (err) {
+      // usuario ya existe
+      if (err.response?.status === 409) {
+        const existingUser = err.response.data.data;
         Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Error inesperado al crear el perfil.",
-        });
-      }
+          icon: "warning",
+          title: "Usuario ya registrado",
+          text: "Ya existe un perfil registrado con este correo electrónico. ¿Deseas procesar el pago ahora?",
+          showCancelButton: true,
+          confirmButtonText: "Sí, pagar ahora",
+          cancelButtonText: "Cancelar",
+        }).then((result) => {
+          if (result.isConfirmed && existingUser?.username) {
+              // 🔹 Reseteamos y luego seteamos
+              setUsernameForPayment(null);
+              setTimeout(() => {
+                setUsernameForPayment(existingUser.username);
+              }, 0);
+            }
+          });
+          return;
+        }
+
+      // otros errores
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.response?.data?.message || err.message || "Error al crear el perfil o subir archivos.",
+      });
+    } finally {
+      setUploading(false);
     }
   };
 
   return (
-    // Contenedor principal para la imagen de fondo que ocupa toda la página
     <Box
       minH="100vh"
       w="full"
@@ -184,19 +261,17 @@ const ProfileForm = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      py={10} // Padding vertical para evitar que el formulario toque los bordes
+      py={10}
     >
-      {/* Box que contiene el formulario, ahora más grande y centrado */}
       <Box
-        className="formulario-perfil"
         w={{ base: "90%", md: "70%", lg: "80%" }}
         mx="auto"
         p={8}
-        bg="whiteAlpha.800" // Fondo semi-transparente para ver la imagen de atrás
+        bg="whiteAlpha.800"
         shadow="3xl"
-        rounded="2xl" // Borde más redondeado para un look moderno
+        rounded="2xl"
       >
-        <Box className="nav-tophome" mb={4}>
+        <Box mb={4}>
           <Link href="/">
             <Button colorScheme="teal" variant="outline">
               🏠 Inicio
@@ -204,359 +279,197 @@ const ProfileForm = () => {
           </Link>
         </Box>
 
-        <Heading align= "center "as="h2" size="lg" mb={4}>
+        <Heading align="center" as="h2" size="lg" mb={4}>
           Datos de tu Perfil Profesional
         </Heading>
 
         <form onSubmit={handleSubmit}>
           <VStack spacing={4} align="stretch">
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-              {/* Campo para Nombre */}
               <FormControl id="name" isRequired>
                 <FormLabel>Nombre y Apellido:</FormLabel>
-                <Input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                />
+                <Input name="name" value={formData.name} onChange={handleChange} />
               </FormControl>
 
-              {/* Campo para Email */}
               <FormControl id="email" isRequired>
                 <FormLabel>Correo Electrónico:</FormLabel>
-                <Input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
+                <Input name="email" type="email" value={formData.email} onChange={handleChange} />
               </FormControl>
 
-              {/* Campo para Teléfono */}
               <FormControl id="phone" isRequired>
                 <FormLabel>Teléfono:</FormLabel>
-                <Input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                />
+                <Input name="phone" value={formData.phone} onChange={handleChange} />
               </FormControl>
 
-              {/* Campo para País */}
               <FormControl id="country" isRequired>
                 <FormLabel>País:</FormLabel>
-                <Input
-                  type="text"
-                  name="country"
-                  value={formData.country}
-                  onChange={handleChange}
-                />
+                <Input name="country" value={formData.country} onChange={handleChange} />
               </FormControl>
 
-              {/* Campo para Profesión */}
               <FormControl id="Profesion">
                 <FormLabel>Profesión:</FormLabel>
-                <Input
-                  type="text"
-                  name="Profesion"
-                  value={formData.Profesion}
-                  onChange={handleChange}
-                />
+                <Input name="Profesion" value={formData.Profesion} onChange={handleChange} />
               </FormControl>
 
-              {/* Campo para Años de experiencia */}
               <FormControl id="ageExpe">
                 <FormLabel>Años de experiencia:</FormLabel>
-                <Input
-                  type="number"
-                  name="ageExpe"
-                  value={formData.ageExpe}
-                  onChange={handleChange}
-                />
+                <Input name="ageExpe" type="number" value={formData.ageExpe} onChange={handleChange} />
               </FormControl>
             </SimpleGrid>
 
-            {/* Campos de Redes Sociales */}
             <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
               <FormControl id="UrlLinkedin">
                 <FormLabel>LinkedIn:</FormLabel>
-                <Input
-                  type="url"
-                  name="UrlLinkedin"
-                  value={formData.UrlLinkedin}
-                  onChange={handleChange}
-                />
+                <Input name="UrlLinkedin" value={formData.UrlLinkedin} onChange={handleChange} />
               </FormControl>
               <FormControl id="Urlgithub">
                 <FormLabel>GitHub:</FormLabel>
-                <Input
-                  type="url"
-                  name="Urlgithub"
-                  value={formData.Urlgithub}
-                  onChange={handleChange}
-                />
+                <Input name="Urlgithub" value={formData.Urlgithub} onChange={handleChange} />
               </FormControl>
               <FormControl id="Urlinstagram">
                 <FormLabel>Instagram:</FormLabel>
-                <Input
-                  type="url"
-                  name="Urlinstagram"
-                  value={formData.Urlinstagram}
-                  onChange={handleChange}
-                />
+                <Input name="Urlinstagram" value={formData.Urlinstagram} onChange={handleChange} />
               </FormControl>
             </SimpleGrid>
 
-            {/* Campos de subida de archivos (simulados con URL) */}
+            {/* FOTO y CV: se guardan local y se suben en handleSubmit */}
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
               <FormControl id="photo">
-                <FormLabel>Foto (URL):</FormLabel>
-                <Input
-                  type="url"
-                  name="photo"
-                  value={formData.photo}
-                  onChange={handleChange}
-                />
+                <FormLabel>Foto:</FormLabel>
+                <HStack>
+                  <Input
+                    ref={photoInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={onPhotoSelect}
+                    style={{ display: "none" }}
+                  />
+                  <Button colorScheme="teal" onClick={() => photoInputRef.current.click()}>
+                    Subir Foto
+                  </Button>
+
+                  {photoPreview ? (
+                    <HStack spacing={2} align="center">
+                      <ChakraImage boxSize="48px" objectFit="cover" src={photoPreview} alt="preview" borderRadius="md" />
+                      <Text fontSize="sm" color="gray.600" noOfLines={1}>
+                        {photoFile?.name || "imagen"}
+                      </Text>
+                      <IconButton aria-label="Eliminar foto" icon={<CloseIcon />} size="sm" onClick={removePhoto} />
+                    </HStack>
+                  ) : (
+                    <Text fontSize="sm" color="gray.500">No hay foto seleccionada</Text>
+                  )}
+                </HStack>
               </FormControl>
 
-              {/* Sección modificada para el botón de subida del CV */}
               <FormControl id="curriCV">
-                <FormLabel>Subir CV:</FormLabel>
-                <Input
-                  type="file"
-                  name="curriCV"
-                  onChange={handleFileChange}
-                  // Ocultamos el input de archivo y lo estilizamos con un botón
-                  style={{ display: 'none' }}
-                />
-                <Button
-                  colorScheme="teal"
-                  onClick={() => document.getElementById('curriCV').click()}
-                  w="full"
-                >
-                  Subir Currículum
-                </Button>
-                {/* Aquí en el futuro puedes mostrar el nombre del archivo cargado */}
-                {formData.curriCV && (
-                  <Text mt={2} fontSize="sm">
-                    Archivo cargado: {formData.curriCV}
-                  </Text>
-                )}
-                {/* <Text mt={2} fontSize="sm" color="gray.500">
-                  Archivo cargado: nombre-del-archivo.pdf
-                </Text> */}
+                <FormLabel>Currículum:</FormLabel>
+                <HStack>
+                  <Input
+                    ref={cvInputRef}
+                    id="curriCV"
+                    type="file"
+                    accept="application/pdf"
+                    onChange={onCvSelect}
+                    style={{ display: "none" }}
+                  />
+                  <Button colorScheme="teal" onClick={() => cvInputRef.current.click()}>
+                    Subir CV
+                  </Button>
+
+                  {cvFile ? (
+                    <HStack spacing={2}>
+                      <FaFilePdf color="red" />
+                      <Text fontSize="sm" color="gray.600" noOfLines={1}>
+                        {cvFile.name}
+                      </Text>
+                      <IconButton aria-label="Eliminar CV" icon={<CloseIcon />} size="sm" onClick={removeCv} />
+                    </HStack>
+                  ) : (
+                    <Text fontSize="sm" color="gray.500">No hay CV seleccionado</Text>
+                  )}
+                </HStack>
               </FormControl>
             </SimpleGrid>
 
-            {/* Campo de Habilidades */}
             <FormControl id="skills">
               <FormLabel>Habilidades (separadas por coma):</FormLabel>
-              <Input
-                type="text"
-                name="skills"
-                value={formData.skills}
-                onChange={handleChange}
-              />
+              <Input name="skills" value={formData.skills} onChange={handleChange} />
             </FormControl>
 
-            {/* Campo de Descripción */}
             <FormControl id="description">
               <FormLabel>Resumen Profesional:</FormLabel>
-              <Textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                rows={4}
-              />
+              <Textarea name="description" value={formData.description} onChange={handleChange} rows={4} />
             </FormControl>
 
-            {/* Checkbox para Proyectos */}
-            <Checkbox
-              isChecked={showProjects}
-              onChange={(e) => setShowProjects(e.target.checked)}
-              colorScheme="blue"
-            >
+            <Checkbox isChecked={showProjects} onChange={(e) => setShowProjects(e.target.checked)} colorScheme="blue">
               ¿Deseas agregar proyectos?
             </Checkbox>
 
-            {/* Sección de proyectos (condicional) */}
             {showProjects && (
-              <VStack spacing={4} align="stretch" p={4} bg="white" shadow="sm" rounded="lg">
-                <Heading as="h3" size="md">
-                  Proyectos
-                </Heading>
+              <VStack spacing={4} align="stretch" p={4} bg="white" rounded="lg">
+                <Heading as="h3" size="md">Proyectos</Heading>
+
                 {projects.map((project, index) => (
-                  <Box
-                    key={index}
-                    p={3}
-                    borderWidth="1px"
-                    rounded="md"
-                    bg="gray.50"
-                    shadow="sm"
-                  >
+                  <Box key={index} p={3} borderWidth="1px" rounded="md" bg="gray.50">
                     <HStack justifyContent="space-between" mb={2}>
-                      <Heading as="h4" size="sm">
-                        Proyecto {index + 1}
-                      </Heading>
+                      <Heading as="h4" size="sm">Proyecto {index + 1}</Heading>
                       {projects.length > 1 && (
-                        <Button
-                          size="xs"
-                          colorScheme="red"
-                          variant="ghost"
-                          onClick={() => handleRemoveProject(index)}
-                        >
+                        <Button size="xs" colorScheme="red" variant="ghost" onClick={() => handleRemoveProject(index)}>
                           Eliminar
                         </Button>
                       )}
                     </HStack>
+
                     <VStack spacing={2} align="stretch">
                       <FormControl>
                         <FormLabel>Nombre del Proyecto:</FormLabel>
-                        <Input
-                          type="text"
-                          name="nameproyect"
-                          value={project.nameproyect}
-                          onChange={(e) => handleProjectChange(e, index)}
-                        />
+                        <Input type="text" name="nameproyect" value={project.nameproyect} onChange={(e) => handleProjectChange(e, index)} />
                       </FormControl>
+
                       <FormControl>
-                        <FormLabel>Tecnologías (separadas por coma):</FormLabel>
-                        <Input
-                          type="text"
-                          name="tecnologiproyect"
-                          value={project.tecnologiproyect}
-                          onChange={(e) => handleProjectChange(e, index)}
-                        />
+                        <FormLabel>Tecnologías:</FormLabel>
+                        <Input type="text" name="tecnologiproyect" value={project.tecnologiproyect} onChange={(e) => handleProjectChange(e, index)} />
                       </FormControl>
+
                       <FormControl>
                         <FormLabel>URL Imagen:</FormLabel>
-                        <Input
-                          type="url"
-                          name="photoproyect"
-                          value={project.photoproyect}
-                          onChange={(e) => handleProjectChange(e, index)}
-                        />
+                        <Input type="url" name="photoproyect" value={project.photoproyect} onChange={(e) => handleProjectChange(e, index)} />
                       </FormControl>
+
                       <FormControl>
                         <FormLabel>Descripción:</FormLabel>
-                        <Textarea
-                          name="descproyect"
-                          value={project.descproyect}
-                          onChange={(e) => handleProjectChange(e, index)}
-                          rows={3}
-                        />
+                        <Textarea name="descproyect" value={project.descproyect} onChange={(e) => handleProjectChange(e, index)} rows={3} />
                       </FormControl>
                     </VStack>
                   </Box>
                 ))}
 
                 {projects.length < 3 && (
-                  <Button
-                    type="button"
-                    colorScheme="green"
-                    onClick={() =>
-                      setProjects([
-                        ...projects,
-                        {
-                          nameproyect: "",
-                          tecnologiproyect: "",
-                          photoproyect: "",
-                          descproyect: "",
-                        },
-                      ])
-                    }
-                  >
+                  <Button type="button" colorScheme="green" onClick={() => setProjects([...projects, { nameproyect: "", tecnologiproyect: "", photoproyect: "", descproyect: "" }])}>
                     + Agregar otro proyecto
                   </Button>
                 )}
               </VStack>
             )}
 
-            <Button
-              type="submit"
-              colorScheme="blue"
-              size="lg"
-              mt={4}
-            >
-              Crear Perfil
+            <Button type="submit" colorScheme="blue" size="lg" mt={4} disabled={uploading}>
+              {uploading ? <><Spinner size="sm" mr={2} /> Subiendo...</> : "Crear Perfil"}
             </Button>
           </VStack>
         </form>
 
-        {/* Modal de pago con Chakra UI */}
-        <Modal isOpen={isOpen} onClose={onClose} isCentered>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Selecciona tu método de pago</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <VStack spacing={4}>
-
-                
-                {/* Componente de MercadoPago */}
-                <Box w="full">
-                  <HandleMercadopago
-                    initialEmail={formData.email}
-                    plan={nameplan}
-                    username={usernameForPayment}
-                  />
-                </Box>
-                
-
-                {/* Botón de PayPal (desactivado) */}
-                <Button
-                  isDisabled
-                  leftIcon={
-                    <img
-                      src="/paypal.svg"
-                      alt="PayPal"
-                      style={{ height: "24px" }}
-                    />
-                  }
-                  colorScheme="blue"
-                  variant="outline"
-                  w="full"
-                >
-                  
-                </Button>
-
-                
-
-                
-                
-
-                {/* Botón de Webpay Plus */}
-                <Button
-                  onClick={() =>
-                    handleWebpayPlus(formData.email, nameplan, usernameForPayment)
-                  }
-                  leftIcon={
-                    <img
-                      src="/webpayplus.png"
-                      alt="Webpay Plus"
-                      style={{ height: "35px" }}
-                    />
-                  }
-                  colorScheme="purple"
-                  variant="outline"
-                  w="full"
-                >
-                 
-                </Button>
-
-
-
-              </VStack>
-            </ModalBody>
-            <ModalFooter>
-              <Button colorScheme="red" onClick={onClose}>
-                Cerrar
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+        {/* Modal de pago */}
+        {usernameForPayment && (
+          <PaymentModal
+            isOpen={true}          // 🔹 siempre abierto cuando usernameForPayment existe
+            onClose={() => router.push("/")} // 🔹 si se cierra, lo manda al inicio
+            initialEmail={formData.email}
+            plan={nameplan}
+            username={usernameForPayment}
+            skipOrderCheck={true}
+          />
+        )}
       </Box>
     </Box>
   );

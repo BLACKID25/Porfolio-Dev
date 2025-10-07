@@ -1,41 +1,48 @@
 'use client';
 
-import { Box, Container, Heading, Text, Button } from '@chakra-ui/react';
+import { Box, Container, Heading, Text, Button, VStack } from '@chakra-ui/react';
 import Link from 'next/link';
 
 export function Suscripcion() {
   return (
     <Box
-      py={12}
-      minH="5vh"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      bgGradient="linear(to-r, blue.50, blue.100)"
-      shadow="xl"
-      rounded="2xl"
+      as="section"
+      w="100%"
+      py={20}
+      bgGradient="linear(to-r, blue.400, blue.600)"
+      color="white"
+      textAlign="center"
+      shadow="2xl"
     >
-      <Container maxW="container.lg" textAlign="center" py={2}>
-        <Heading as="h2" size="xl" mb={6}>
-          "Potencia tu carrera y destaca tu talento. <br /> Únete a nuestra
-          comunidad y eleva tu portafolio con una imagen profesional que mereces.{" "}
-          <br /> Todo a un bajo Costo $"
-        </Heading>
-        <Box mt={5}>
+      <Container maxW="container.xl">
+        <VStack spacing={8}>
+          <Heading as="h2" size="2xl" fontWeight="extrabold" lineHeight="shorter">
+            Potencia tu carrera y destaca tu talento
+          </Heading>
+
+          <Text fontSize="xl" maxW="3xl">
+            Somos una comunidad inclusiva, abierta y con visión, con la cual podrás potenciarte como profesional, potenciar tu marca personal y hacer crecer tu negocio.  
+           Únete a nuestra comunidad y potencia tu portafolio con una URL personalizada y asesoría especializada en Reclutamiento y RRHH. Todo a un <strong>bajo costo</strong>.
+          </Text>
+
           <Link href="/Planes" passHref>
             <Button
-              colorScheme="blue"
+              
               size="lg"
-              variant="solid"
+              px={10}
+              py={6}
+              colorScheme="yellow"
               rounded="full"
+              fontSize="lg"
+              shadow="lg"
+              _hover={{ transform: 'scale(1.05)', shadow: 'xl' }}
+              transition="all 0.3s ease-in-out"
             >
-              ACCEDE A TU PLAN AQUÍ 👈
+              🚀 ACCEDE A TU PLAN AQUÍ
             </Button>
           </Link>
-        </Box>
+        </VStack>
       </Container>
     </Box>
   );
 }
-
- 

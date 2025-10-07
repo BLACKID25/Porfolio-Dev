@@ -1,11 +1,18 @@
 'use client';
 
+// 1 Componente de Banner
+
 import { Box, Container, Heading, Text, Flex, IconButton, Menu, MenuButton, MenuList, MenuItem, Link, Button } from '@chakra-ui/react';
 import imagen from '../../../assets/Jpg/Home-banner.jpg';
 import { FaHome, FaAddressCard, FaPencilAlt, FaInfoCircle, FaEnvelope, FaBars } from 'react-icons/fa'; // Importa los íconos necesarios
-import NavBar from '../NavBar/NavBar'; // Asegúrate de que esta importación sea correcta
+//import NavBar from '../NavBar/NavBar'; // Asegúrate de que esta importación sea correcta
+import { usePaymentModal } from "@/app/hooks/usePaymentModal"; // Asegúrate de que esta importación sea correcta
+import { useDisclosure } from "@chakra-ui/react";
 
 export function Banner() {
+
+ const { onOpen, PaymentModal, isOpen, onClose } = usePaymentModal();
+
   return (
     <Box
       as="section"
@@ -57,6 +64,16 @@ export function Banner() {
               Contacto
             </Button>
           </Link>
+            <Button
+              bg="yellow.400"
+              color="black"
+              _hover={{ bg: "yellow.500" }}
+              fontWeight="bold"
+              onClick={onOpen} // este onOpen sería del hook del modal de pagos
+            >
+              Finalizar Pago
+            </Button>
+            <PaymentModal isOpen={isOpen} onClose={onClose} />
           
         </Flex>
 

@@ -7,13 +7,12 @@ import Swal from 'sweetalert2';
 
 const HandleMercadopago = ({ initialEmail, plan, username }) => {
 
-  console.log("lo que llega del boton del body",initialEmail, plan, username)
-
+  
   // Estado para manejar el email, inicializado con la prop initialEmail
   const [paymentEmail, setPaymentEmail] = useState(initialEmail);
   // Estado para controlar si el pago ya se intentó para evitar bucles
   const [paymentAttempted, setPaymentAttempted] = useState(false);
-
+  
   // useEffect para reaccionar cuando paymentEmail cambia (después de que el usuario lo introduce en Swal)
   useEffect(() => {
     // Solo si paymentEmail ha cambiado desde initialEmail y no es la primera carga
@@ -25,8 +24,9 @@ const HandleMercadopago = ({ initialEmail, plan, username }) => {
       handleMercadopagoClick();
     }
   }, [paymentEmail, initialEmail, paymentAttempted]); // Dependencias del useEffect
-
+  
   const handleMercadopagoClick = async () => {
+    console.log("lo que llega del boton del body",initialEmail, plan, username)
     // Si ya se intentó el pago y estamos en un reintento, no lo marcamos de nuevo
     if (!paymentAttempted) {
         setPaymentAttempted(true); // Marca que se ha intentado un pago
