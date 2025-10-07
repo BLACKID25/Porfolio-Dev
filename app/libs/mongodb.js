@@ -12,11 +12,7 @@ if (!MONGODB_URI) {
   );
 }
 
-/**
- * Global is used here to maintain a cached connection across hot reloads
- * in development. This prevents connections growing exponentially
- * during API Route usage.
- */
+
 let cached = global.mongoose;
 
 if (!cached) {
@@ -25,13 +21,13 @@ if (!cached) {
 
 async function dbConnect() {
   if (cached.conn) {
-    // console.log("Mongoose is already connected (reusing existing connection)"); // Puedes descomentar esto para ver cuando se reutiliza
+    
     return cached.conn;
   }
 
   if (!cached.promise) {
     const opts = {
-      bufferCommands: false, // Deshabilita el buffering de comandos
+      bufferCommands: true, // Deshabilita el buffering de comandos
       // useNewUrlParser: true, // Ya es el valor por defecto en versiones recientes de Mongoose
       // useUnifiedTopology: true, // Ya es el valor por defecto en versiones recientes de Mongoose
     };

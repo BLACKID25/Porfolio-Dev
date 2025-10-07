@@ -1,7 +1,7 @@
 import connectDB from "@/app/libs/mongodb";
 import { NextResponse } from "next/server";
 import { PerfilModel } from "@/app/models/Profile";
-import { generateUsername } from "@/app/Hooks/Username";
+import { generateUsername } from "@/app/hooks/Username";
 
 export async function POST(req) { 
   await connectDB();
@@ -22,7 +22,11 @@ export async function POST(req) {
       
             return NextResponse.json({
                 message: "Ya existe un perfil registrado con este correo electrónico.",
-                code: "EMAIL_DUPLICATE"
+                code: "EMAIL_DUPLICATE",
+                data:{
+                  username: perfilExistenteEmail.username,
+                  email: perfilExistenteEmail.email
+                }
             }, { status: 409 }); // 409: Conflict
         }
 
@@ -65,16 +69,53 @@ export async function POST(req) {
 }
 
 // crear funcion get
+// crear funcion get
 export async function GET(req) {
-    await connectDB();
-    try {
-        const profiles = await PerfilModel.find();
-        return NextResponse.json(profiles , { status: 200 });
-    }
-    catch (error){
-        console.error("Error al procesar la solicitud de busqueda de usuarios:", error);
-        return NextResponse.json({ message: "Error interno del servidor" }, { status:
-            500 });
+  await connectDB();
+  try {
+    const { searchParams } = new URL(req.url);
 
-    }
-}   
+    // 📌 Parámetros de paginación
+    const page = parseInt(searchParams.get("page")) || 1;   // página actual
+    const limit = parseInt(searchParams.get("limit")) || 12; // cantidad por página
+    const skip = (page - 1) * limit;
+
+    // 📌 Filtros
+    const name = searchParams.get("name") || "";
+    const country = searchParams.get("country") || "";
+    const profesion = searchParams.get("profesion") || "";
+
+    // 📌 Construimos query dinámico
+    const query = {
+      planActivated: true,
+      name: { $regex: name, $options: "i" },
+      country: { $regex: country, $options: "i" },
+      Profesion: { $regex: profesion, $options: "i" },
+    };
+
+    // 📌 Ejecutamos búsqueda paginada
+    const [profiles, total] = await Promise.all([
+      PerfilModel.find(query).skip(skip).limit(limit),
+      PerfilModel.countDocuments(query),
+    ]);
+
+    return NextResponse.json(
+      {
+        data: profiles,
+        pagination: {
+          total,
+          page,
+          limit,
+          totalPages: Math.ceil(total / limit),
+        },
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error al procesar la solicitud de búsqueda de usuarios:", error);
+    return NextResponse.json(
+      { message: "Error interno del servidor" },
+      { status: 500 }
+    );
+  }
+}

@@ -1,7 +1,7 @@
 // /api/mercadopago/createOrder/route.js
 
 import { MercadoPagoConfig, PreApproval } from 'mercadopago';
-import { plans } from '@/app/Hooks/Plnaes.info';
+import { plans } from '@/app/hooks/Plnaes.info';
 import { NextResponse } from "next/server";
 import { SuscripciontModel } from '@/app/models/Suscripcion';
 

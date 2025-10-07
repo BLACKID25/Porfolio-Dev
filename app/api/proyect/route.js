@@ -1,7 +1,7 @@
 import connectDB from "@/app/libs/mongodb";
 import { NextResponse } from "next/server";
 import { ProyectModel } from "@/app/models/Proyect";
-import { generateUsername } from "@/app/Hooks/Username";
+import { generateUsername } from "@/app/hooks/Username";
 
 export async function POST(req) {
 

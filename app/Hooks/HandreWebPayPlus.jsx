@@ -2,8 +2,9 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 
-export const handleWebpayPlus = async (email, plan) => {
+export const handleWebpayPlus = async (email, plan, username) => {
 
+  console.log("lo que llega del boton del body webpayplus",plan, email, username) 
     try {
        
       if (!plan) {
@@ -15,7 +16,12 @@ export const handleWebpayPlus = async (email, plan) => {
         return;
       }
 
-      const response = await axios.post('/api/webpayplus/create', { plan: plan });
+      // Enviar email y plan al endpoint
+    const response = await axios.post('/api/webpayplus/create', {
+      plan: plan,
+      email: email, 
+      username: username,
+    });
        
       const { token, url } = response.data;
 
