@@ -29,7 +29,7 @@ export async function sendWelcomeEmail(email, username, profileURL) {
             </p>
             <p>
                 Te recomendamos mantener tu perfil actualizado para asegurar la mejor impresión ante colegas, 
-                clientes y empresas interesadas en tu trabajo.
+                clientes y empresas interesadas en tu trabajo y profesionalidad.
             </p>
             <hr style="margin:30px 0;">
             <p style="font-size:14px; color:#555;">
